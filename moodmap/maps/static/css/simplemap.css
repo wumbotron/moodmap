@@ -1,5 +1,25 @@
-/*#mapDiv {
+﻿html, body {
     padding: 0;
     margin: 0;
     height: 100%;
-}*/
+}
+
+#mapDiv {
+    margin-right: 20px;
+    height: 88%;
+    min-width: 320px;
+    /*min-height: 100%;*/
+}
+#pieChart, #tagCloud {
+	
+}
+.placeholder {
+	height: 170px;
+	line-height: 170px;
+	border: 1px gray solid;
+	background-color: #EEE;
+	color: black;
+	text-align: center;
+	vertical-align: middle;
+	margin-bottom: 20px;
+}

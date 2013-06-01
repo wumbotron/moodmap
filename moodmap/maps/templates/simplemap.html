@@ -1,34 +1,47 @@
 {% load staticfiles %}
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
- <head>
- 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
- 	<title>A simple ESRI Map</title>
- 	<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/js/esri/css/esri.css">
-<script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/"></script>
- <link rel="stylesheet" href="{% static 'css/bootstrap.cyborg.css' %}" media="screen">
-  <link rel="stylesheet" href="{% static 'css/simplemap.css' %}">
- <script src="{% static 'js/bootstrap.js' %}"></script>
- </head>
- <body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=7,IE=9">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
-	<div class="container-fluid">
- 		<div class="row-fluid">
-	 		<div class="span4">
-	 			<h1>The WumboTron</h1>
-	 		</div>
-	 		<div class="span8">
-	 			<div class="claro">
-	 				<div id="mapDiv"></div>
-	 			</div>
-	 		</div>
-	 	</div>
- 	</div>
-
-
- </body>
- <script src="{% static 'simplemap.js' %}"></script>
+		<title>Auto Poll</title>
+		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/js/esri/css/esri.css">
+		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/js/dojo/dijit/themes/claro/claro.css ">
+		<script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/"></script>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.cyborg.css' %}" media="screen">
+		<script src="{% static 'js/bootstrap.js' %}"></script>
+		<link rel="stylesheet" href="{% static 'css/simplemap.css' %}">
+ 	</head>
+ 	<body>
+		<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="brand" href="#">Auto Poll</a>
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li><a href="#about">About</a></li>
+						</ul>
+					</div><!--/.nav-collapse -->
+					<form class="navbar-search pull-right">
+						<input type="text" class="search-query" placeholder="Search">
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="span4" style="float: left">
+			Pie chart
+			<div id="pieChart" class="placeholder">Placeholder</div>
+			Tag cloud
+			<div id="tagCloud" class="placeholder">Placeholder</div>
+		</div>
+		<div id="mapDiv" class="container-fluid"></div>
+ 	</body>
+ 	<script src="{% static 'simplemap.js' %}"></script>
 </html>
