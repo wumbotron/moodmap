@@ -8,4 +8,9 @@ def index(request):
 def map(request):
 	"""Returns a map view"""
 	return HttpResponse(render_to_string('simplemap.html'))
+
+def layers(request):
+	"""Returns a map view that uses ESRI feature layers"""
+	return HttpResponse(render_to_string('maplayers.html'))
+	
 	

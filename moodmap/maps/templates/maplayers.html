@@ -1,0 +1,44 @@
+{% load staticfiles %}
+	<!DOCTYPE html>
+<html>
+ <head>
+ 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+ 	<title>Using Feature Layers</title>
+ 	<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/esri/css/esri.css">
+<script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/"></script>
+<script src="http://code.jquery.com/jquery-1.10.1.js"></script>
+ <link rel="stylesheet" href="{% static 'css/bootstrap.cyborg.css' %}" media="screen">
+ <link rel="stylesheet" href="{% static 'css/bootstrap-responsive.css' %}" media="screen">
+  <link rel="stylesheet" href="{% static 'css/maplayers.css' %}">
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+ 
+ <script src="{% static 'js/heatmap.js' %}"></script>
+ <script src="{% static 'js/heatmap-arcgis.js' %}"></script>
+ 
+ </head>
+ <body>
+ 	<div class="container-fluid">
+ 		<div class="row-fluid">
+	 		<div class="span4">
+	 			<h1>The WumboTron</h1>
+	 		</div>
+	 		<div class="span8">
+	 			<div id="heatmapArea">
+                <div id="heatLayer"></div>
+                <div id="title">San Francisco Trees</div>
+                <div id="map"></div>
+    		</div>
+	 			
+	 		</div>
+	 	</div>
+ 	</div>
+
+ 	
+
+ </body>
+
+<script src="{% static 'js/maplayers.js' %}"></script>
+</html>
