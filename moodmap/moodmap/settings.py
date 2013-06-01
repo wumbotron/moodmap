@@ -2,6 +2,8 @@ import os
 import django
 
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+BASE_DIR = os.path.abspath(os.path.join(SITE_ROOT, '..'))
+
 # Django settings for moodmap project.
 
 DEBUG = True
@@ -68,6 +70,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "maps/static"),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -107,7 +110,7 @@ ROOT_URLCONF = 'moodmap.urls'
 WSGI_APPLICATION = 'moodmap.wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.join(SITE_ROOT, "templates/"),
+    os.path.join(BASE_DIR, "maps/templates/"),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
