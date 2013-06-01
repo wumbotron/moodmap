@@ -8,6 +8,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = patterns('',
     #url(r'.*', 'maps.views.index'),
     url(r'map/$', 'maps.views.map'),
+    url(r'layers/$', 'maps.views.layers'),
     # Examples:
     # url(r'^$', 'moodmap.views.home', name='home'),
     # url(r'^moodmap/', include('moodmap.foo.urls')),
