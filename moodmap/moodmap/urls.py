@@ -5,6 +5,7 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'.*', 'maps.views.index'),
     # Examples:
     # url(r'^$', 'moodmap.views.home', name='home'),
     # url(r'^moodmap/', include('moodmap.foo.urls')),
