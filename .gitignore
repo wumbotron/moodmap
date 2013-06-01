@@ -1,3 +1,6 @@
 *.swp
+*.pyc
 env
 env_activate
+.DS_Store
+moodmap/moodmap.db
