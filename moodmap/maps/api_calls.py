@@ -2,6 +2,7 @@
 import urllib2
 import urllib
 import json
+from datetime import datetime
 
 class APICallFailed(Exception):
     """ Exception thrown when a server returns an error from an API call """
@@ -76,19 +77,29 @@ def call_twitter(query, geocode=None):
 
 def request_twitter_sentiment(tweet):
     text = tweet['text']
-    url = tweet['source']
+    geo = tweet['geo']
+    user = tweet['from_user']
+    tweet_id = tweet['id_str']
 
     sentiment, score, keywords = get_sentiment(text)
 
-    return sentiment, score, keywords
+    return {'sentiment': sentiment,
+            'score': score, 
+            'keywords': keywords,
+            'tweet_id': tweet_id,
+            'user': user,
+            'geo': json.dumps(geo['coordinates'])}
+
 
 def update_model(*args, **kwargs):
-    def write_model_output(tweet_data):
-        pass # TODO: interface with Django model
+    def write_model_output(tweet_data, query):
+        tweet_data['datetime'] = datetime.now()
+        tweet_data['query'] = query
+        DataPoint.objects.create(**tweet_data)
 
     tweets = call_twitter(*args, **kwargs)
     for tweet in tweets:
         try:
-            write_model_output(request_twitter_sentiment(tweet))
+            write_model_output(request_twitter_sentiment(tweet), "hack4colorado")
         except APICallFailed:
             pass
