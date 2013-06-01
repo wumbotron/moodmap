@@ -4,9 +4,11 @@ import urllib
 import json
 
 class APICallFailed(Exception):
+    """ Exception thrown when a server returns an error from an API call """
     pass
 
 def send_request(url, args):
+    """ Sends a request to the given RESTful service using the given args """
     url_values = urllib.urlencode(args)
     response = urllib2.urlopen(url + '?' + url_values)
     data = json.load(response)
@@ -14,6 +16,14 @@ def send_request(url, args):
 
 
 def get_sentiment(text):
+    """
+    Calls the Alchemy API to get the sentiment/keyword from text.
+    Returns: A tuple (sentiment, score, keywords).
+             sentiment - "positive", "neutral", or "negative"
+             score - Number between 0 and 1, or None
+             keywords - Dictionary of present keywords
+    """
+
     # rest endpoint
     sentiment_endpoint = 'http://access.alchemyapi.com/calls/text/TextGetTextSentiment'
     keyword_endpoint = 'http://access.alchemyapi.com/calls/text/TextGetRankedKeywords'
@@ -43,16 +53,23 @@ def get_sentiment(text):
 
     return sentiment_type, score, keywords
 
-
-
 def call_twitter(query, geocode=None):
+    """
+    Calls the Twitter Search API with the given search query and an
+    optional geocode string.
+
+    Returns: a list of tweets
+    """
     endpoint = 'http://search.twitter.com/search.json'
 
     args = {}
     args['q'] = query
 
     # geocode for Denver within a 30 mi radius
-    args['geocode'] = '39.739167,-104.984722,30mi'
+    if geocode is None:
+        args['geocode'] = '39.739167,-104.984722,30mi'
+    else:
+        args['geocode'] = geocode
 
     data = send_request(endpoint, args)
     return data['results']
@@ -67,7 +84,7 @@ def request_twitter_sentiment(tweet):
 
 def update_model(*args, **kwargs):
     def write_model_output(tweet_data):
-        pass
+        pass # TODO: interface with Django model
 
     tweets = call_twitter(*args, **kwargs)
     for tweet in tweets:
