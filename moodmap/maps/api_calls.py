@@ -26,7 +26,6 @@ def get_sentiment(text):
 
 
     sentiment_data = send_request(sentiment_endpoint, args)
-    print sentiment_data
     if sentiment_data['status'] == "ERROR":
         raise APICallFailed("Got error from alchemy")
 
@@ -51,11 +50,11 @@ def call_twitter(query, geocode=None):
 
     args = {}
     args['q'] = query
-    if geocode is not None:
-        args['geocode'] = geocode
+
+    # geocode for Denver within a 30 mi radius
+    args['geocode'] = '39.739167,-104.984722,30mi'
 
     data = send_request(endpoint, args)
-    print data['results']
     return data['results']
 
 def request_twitter_sentiment(tweet):
@@ -69,7 +68,7 @@ def request_twitter_sentiment(tweet):
 def update_model(*args, **kwargs):
     def write_model_output(tweet_data):
         pass
-        
+
     tweets = call_twitter(*args, **kwargs)
     for tweet in tweets:
         try:
