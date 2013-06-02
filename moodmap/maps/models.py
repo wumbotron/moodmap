@@ -9,4 +9,4 @@ class DataPoint(models.Model):
     # geotag (blank if none available)
     geo       = models.CharField(max_length=100, blank=True)
     keywords  = models.TextField()
-    datetime  = models.DateTimeField()
+    datetime  = models.DateTimeField(auto_now_add=True)
