@@ -46,11 +46,20 @@ var dojoConfig = { parseOnLoad: true };
 function drawTagCloud() {
   var tags = [];
   $.get("/api/tags.json", function(data) {
-      console.log('tags ', data);
-      for (var i = 0, length = tags.length; i < length; i++) {
+      //console.debug('tags', data);
+      for (var i = 0, length = data.length; i < length; i++) {
         var tag = {};
         tag.text = data[i].text;
-        tags.push(tag);
+        var weight = Math.round(data[i].weight * 100) / 100;
+        if (weight >= 15 && weight <= 20 && tag.text.toString().indexOf(' ') < 0) {
+          tag.weight = 8;
+          tags.push(tag);
+        } else if (weight >= 1) { //} && tag.text.toString().indexOf(' ') < 0) {
+          //console.log('text: ', tag.text, 'weight: ', weight);
+          tag.weight = weight;
+          tags.push(tag);
+        } 
+        
       }
     },
     "json"
