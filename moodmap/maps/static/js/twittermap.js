@@ -24,10 +24,11 @@ var dojoConfig = { parseOnLoad: true };
         var featureLayer;
 
         map = new Map("map", {
-          basemap: "satellite",
-          center: [-104.87,39.67],
-          zoom: 3
-        });
+	      center: [-104.87,39.67],
+	      zoom: 5,//11,
+	      basemap: "streets",
+	      autoResize: true
+	    });
 
         //hide the popup if its outside the map's extent
         map.on("mouse-drag", function(evt) {
@@ -55,10 +56,16 @@ var dojoConfig = { parseOnLoad: true };
               "type": "simple",
               "symbol": {
                 "type": "esriPMS",
-                "url": "/static/img/flickr.png",
+                "url": "/static/img/twitter-icon-green.png",
                 "contentType": "image/png",
-                "width": 15,
-                "height": 15
+                "width": 20,
+                "height": 20/*,
+                "outline": {
+                	"type" : "esriSLS", 
+					"style" : "esriSLSSolid", 
+					"color" : [110,110,110,255], 
+					"width" : 1
+                }*/
               }
             }
           },

@@ -7,9 +7,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
 		<title>Auto Poll</title>
-		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/js/esri/css/esri.css">
-		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/js/dojo/dijit/themes/claro/claro.css ">
-		<script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/"></script>
+		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/esri/css/esri.css">
+		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/dojo/dijit/themes/claro/claro.css ">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+		<script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/"></script>
 		<link rel="stylesheet" href="{% static 'css/bootstrap.cyborg.css' %}" media="screen">
 		<script src="{% static 'js/bootstrap.js' %}"></script>
 		<link rel="stylesheet" href="{% static 'css/simplemap.css' %}">
@@ -41,7 +42,7 @@
 			Tag cloud
 			<div id="tagCloud" class="placeholder">Placeholder</div>
 		</div>
-		<div id="mapDiv" class="container-fluid"></div>
+		<div id="map" class="container-fluid"></div>
  	</body>
- 	<script src="{% static 'simplemap.js' %}"></script>
+ 	<script src="{% static 'js/twittermap.js' %}"></script>
 </html>
