@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 import json
 import models
+from api_calls import update_model
 
 def index(request):
     """Returns a default view"""
@@ -40,6 +41,26 @@ def data(request):
     output = [construct_output(datapoint) for datapoint in
         models.DataPoint.objects.order_by('tweet_id').reverse()[:NUMPOINTS]]
     return HttpResponse(json.dumps(output))
+
+def search(request):
+    def construct_output(datapoint):
+        """For a given DataPoint, constructs an output dictionary"""
+        return {'user': datapoint.user,
+                'tweet_id': datapoint.tweet_id,
+                'sentiment': datapoint.sentiment,
+                'score': datapoint.score,
+                'geo': datapoint.geo,
+                'datetime': datapoint.datetime.isoformat()
+               }
+
+    NUMPOINTS = 250
+    query = request.GET['query']
+    if not models.DataPoint.objects.filter(query__exact=query).exists():
+        update_model(query)
+    query_set = models.DataPoint.objects.filter(query__exact=query).order_by('tweet_id').reverse()[:NUMPOINTS]
+    output = [construct_output(datapoint) for datapoint in query_set]
+    return HttpResponse(json.dumps(output))
+
 
 def tags(request):
     queryset = list(models.DataPoint.objects.order_by('datetime')[:100])

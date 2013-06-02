@@ -18,6 +18,7 @@ log = syslog.syslog
 def send_request(url, args):
     """ Sends a request to the given RESTful service using the given args """
     url_values = urllib.urlencode(args)
+    print url + '?' + url_values
     response = urllib2.urlopen(url + '?' + url_values)
     data = json.load(response)
     return data
@@ -80,6 +81,7 @@ def call_twitter(query, **kwargs):
         kwargs['rpp'] = 100
 
     data = send_request(endpoint, kwargs)
+    print data
     return data['results']
 
 def request_twitter_sentiment(tweet):
@@ -120,6 +122,9 @@ def update_model(query, *args, **kwargs):
 
     if max_id is not None:
         kwargs['since_id'] = max_id
+
+    if query is not 'hack4colorado' and 'since_id' in kwargs:
+        kwargs.pop('since_id')
 
     tweets = call_twitter(query, *args, **kwargs)
     log("writing %s tweets to DB" % (len(tweets),))
