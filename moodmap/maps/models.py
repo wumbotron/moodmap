@@ -10,3 +10,4 @@ class DataPoint(models.Model):
     geo       = models.CharField(max_length=100, blank=True)
     keywords  = models.TextField()
     datetime  = models.DateTimeField(auto_now_add=True)
+    tweet     = models.CharField(max_length=140)

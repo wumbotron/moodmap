@@ -109,7 +109,8 @@ def request_twitter_sentiment(tweet):
             'keywords': json.dumps(keywords),
             'tweet_id': tweet_id,
             'user': user,
-            'geo': geotag
+            'geo': geotag,
+            'tweet': text
            }
 
 
