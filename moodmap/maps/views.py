@@ -32,7 +32,7 @@ def data(request):
 
     NUMPOINTS = 250
     output = [construct_output(datapoint) for datapoint in
-        models.DataPoint.objects.order_by('tweet_id')[:NUMPOINTS]]
+        models.DataPoint.objects.order_by('tweet_id').reverse()[:NUMPOINTS]]
     return HttpResponse(json.dumps(output))
 
 def tags(request):
