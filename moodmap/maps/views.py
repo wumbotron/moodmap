@@ -12,5 +12,9 @@ def map(request):
 def layers(request):
 	"""Returns a map view that uses ESRI feature layers"""
 	return HttpResponse(render_to_string('maplayers.html'))
+
+def flickr(request):
+	"""Returns a map that loads flickr images"""
+	return HttpResponse(render_to_string('flickr.html'))
 	
 	
