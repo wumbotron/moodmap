@@ -20,10 +20,6 @@ def layers(request):
 def flickr(request):
 	"""Returns a map that loads flickr images"""
 	return HttpResponse(render_to_string('flickr.html'))
-
-def cloud(request):
-	"""Return a map and tag cloud page"""
-	return HttpResponse(render_to_string('cloud.html'))
 	
 def data(request):
     def construct_output(datapoint):
@@ -32,6 +28,7 @@ def data(request):
                 'tweet_id': datapoint.tweet_id,
                 'sentiment': datapoint.sentiment,
                 'score': datapoint.score,
+                'geo': datapoint.geo,
                 'datetime': datapoint.datetime.isoformat()
                }
 
@@ -53,11 +50,7 @@ def tags(request):
             else:
                 kws[keyword] += relevance
     kws = scale(kws, 20)
-
-    json_string = []
-    for kw in kws:
-        json_string.append({'text': kw, 'weight': kws[kw]})
-    return HttpResponse(json.dumps(json_string))
+    return HttpResponse(json.dumps(kws))
 
 def normalize_text(text):
     t = text.lower()
