@@ -1,3 +1,5 @@
+from __future__ import division
+
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 import json
@@ -72,5 +74,15 @@ def scale(kws, scale):
         kws[kw] = rel * scale_factor
     return kws
 
+def tally(request):
+    NUMPOINTS = 500
+    points = models.DataPoint.objects.order_by('tweet_id').reverse()[:NUMPOINTS]
 
+    totals = {}
+    for point in points:
+        if point.sentiment in totals:
+            totals[point.sentiment] += 1
+        else:
+            totals[point.sentiment]  = 1
 
+    return HttpResponse(json.dumps(totals))
