@@ -20,6 +20,9 @@
 	vertical-align: middle;
 	margin-bottom: 20px;
 }
+.module {
+	margin-bottom: 20px;
+}
 
 .modal {
     display:    none;
@@ -33,4 +36,8 @@
                 url('/static/img/ajax-loader.gif') 
                 50% 50% 
                 no-repeat;
+}
+
+.brand {
+	font-family: scoreboard, sans-serif;
 }

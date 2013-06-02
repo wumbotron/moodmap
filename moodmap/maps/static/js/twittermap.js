@@ -97,7 +97,6 @@
 		
 		function createFeatureLayer() {
 	        if(featureLayer) map.removeLayer(featureLayer);
-	        console.log("create feature layer");
 	        //create a feature layer based on the feature collection
 	        featureLayer = new FeatureLayer(featureCollection, {
 	          id: 'flickrLayer',
@@ -115,7 +114,7 @@
 	    function initMap() {
 	    	map.on("layers-add-result", function(results) {
 	          if(runonce) {
-	          	requestPhotos();
+	          	getInitialTweets();
 	          	runonce = false;
 	          }
 	        });
@@ -125,10 +124,7 @@
 	        
 	    }
 
-      function requestPhotos() {
-        //get geotagged photos from flickr
-        //tags=flower&tagmode=all
-        console.log("photos");
+      function getInitialTweets() {
         $.get("/api/data.json", function(data) { 
         	populateMap(data); 
         },
@@ -162,8 +158,10 @@
 		        attr.user = data[i].user;
 		        attr.sentiment = data[i].sentiment;
 		        attr.datetime = data[i].datetime;
-		        attr.title = data[i].user;
-		        attr.description = data[i].sentiment;
+		        //var sentiment = (data[i].sentiment == "positive") ? "#05bc1e" : 
+		        attr.title = data[i].sentiment;
+		        attr.description = data[i].tweet + " <br><span class=\"label label-info\">" + data[i].user + "</span>";
+		        attr.tweet = data[i].tweet;
 		        //attr.geo = JSON.parse(data[i].geo);
 		        var coord = JSON.parse(data[i].geo);
 		        var pt = {"latitude": coord.coordinates[0], "longitude": coord.coordinates[1]};
@@ -185,9 +183,13 @@
 
 		$("#search-form").submit(function() {
 			$("#loader").css("display", "block");
-			var queryValue = $("#search-query").val();
+			var data = null;
+			if($("#search-query").val() != "") {
+				data = { query: encodeURIComponent($("#search-query").val()) }
+			}
+
 			$.get("/api/search.json", 
-				{ query: queryValue }, 
+				data, 
 				function(data) {
 					console.log("Data returned: " + data);
 					populateMap(data);
@@ -195,6 +197,10 @@
 				}, "json").fail(function() {
 					console.log("search failed");
 				});
+			
+			drawTagCloud();
+			refreshChart();
+			
 			return false;
 		});
 	    

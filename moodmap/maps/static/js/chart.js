@@ -1,5 +1,14 @@
 ﻿$(function() {
-	$.get("/api/tally.json", function(data) {
+	refreshChart();
+
+});
+
+function refreshChart() {
+	var data = null;
+	if($("#search-query").val() != "") {
+		data = { query: $("#search-query").val() }
+	}
+	$.get("/api/tally.json", data, function(data) {
       //console.debug('tags', data);
       var total = data.positive + data.neutral + data.negative;
       var percents = {"positive": (data.positive / total * 100), "negative": (data.negative / total * 100), "neutral": (data.neutral / total * 100) }
@@ -10,14 +19,12 @@
       $("#neutral").width("" + percents.neutral + "%").text(data.neutral);
       $("#negative").width("" + percents.negative + "%").text(data.negative);
       
-      //$("#positive").width("33%");
-      //$("#negative").attr();
+      $("#stats").html("Total: " + total + "<br>" + "Geo-tagged: " + data.geotagged);
     },
     "json"
   ).fail(function() {
-	console.log("tag cloud load failed");
+	console.log("chart load failed");
   }).done(function() {
-	console.log("tag cloud done");
+	//console.log("chart done");
   });
-
-});
+}

@@ -132,11 +132,12 @@ def tally(request):
         points = filtered.order_by('tweet_id').reverse()[:NUMPOINTS]
 
     totals = {}
+    totals["geotagged"] = 0
     for point in points:
         cl = classify(point)
         if cl in totals:
             totals[cl] += 1
         else:
             totals[cl]  = 1
-    
+        if point.geo != "": totals["geotagged"] += 1
     return HttpResponse(json.dumps(totals))

@@ -6,7 +6,11 @@ $(document).ready(function() {
 
 function drawTagCloud() {
   var tags = [];
-  $.get("/api/tags.json", function(data) {
+  var data = null;
+	if($("#search-query").val() != "") {
+		data = { query: $("#search-query").val() }
+	}
+  $.get("/api/tags.json", data, function(data) {
       //console.debug('tags', data);
       for (var i = 0, length = data.length; i < length; i++) {
         var tag = {};
@@ -22,6 +26,7 @@ function drawTagCloud() {
         } 
         
       }
+      $("#jqtagcloud").html("");
       $("#jqtagcloud").jQCloud(tags);
     },
     "json"

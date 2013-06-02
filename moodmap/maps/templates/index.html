@@ -6,7 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=7,IE=9">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
-		<title>Auto Poll</title>
+		<title>Poll-o-tron</title>
 		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/esri/css/esri.css">
 		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/dojo/dijit/themes/claro/claro.css ">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
@@ -27,10 +27,10 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="brand" href="#">Auto Poll</a>
+					<a class="brand" href="/">Poll-o-tron</a>
 					<div class="nav-collapse collapse">
 						<ul class="nav">
-							<li><a href="#about">About</a></li>
+							<li><a href="/about">About</a></li>
 						</ul>
 					</div><!--/.nav-collapse -->
 					<form id="search-form" class="navbar-search pull-right">
@@ -40,8 +40,13 @@
 			</div>
 		</div>
 		<div class="span4" style="float: left;">
-			Sentiment Chart
-			<div id="chart-container">
+			Tweet Statistics
+			<div id="stats" class="module">
+				
+			</div>
+			<br>
+			Sentiments
+			<div id="chart-container" class="module">
 				<div id="chart">
 					<div id="positive"></div>
 					<div id="neutral"></div>
@@ -53,9 +58,10 @@
 					<div class="right">Negative</div>
 				</div>
 			</div>
+			
 			<br>
 			Tag cloud
-			<div class="jqtagcloud" id="jqtagcloud">
+			<div class="jqtagcloud module" id="jqtagcloud">
         	</div>
 		</div>
 		<div id="map" class="container-fluid"></div>

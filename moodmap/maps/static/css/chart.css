@@ -17,6 +17,7 @@
 	font-weight: bold;
 }
 #labels div {
+	padding-top: 5px;
 	float: left;
 	color: white;
 	width: 33.333%;
@@ -37,4 +38,7 @@
 }
 #neutral {
 	background-color:#808080;
+}
+#stats {
+	color: white;
 }
