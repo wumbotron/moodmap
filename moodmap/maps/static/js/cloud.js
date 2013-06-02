@@ -44,6 +44,18 @@ var dojoConfig = { parseOnLoad: true };
       });
 
 function drawTagCloud() {
+  var tags = [];
+  $.get("/api/tags.json", function(data) {
+      console.log('tags ', data);
+      for (var i = 0, length = tags.length; i < length; i++) {
+        var tag = {};
+        tag.text = data[i].text;
+        tags.push(tag);
+      }
+    },
+    "json"
+  );
+
   var word_array = [
           {text: "Lorem", weight: 8},
           {text: "Ipsum", weight: 9, link: "http://jquery.com/"},
@@ -53,6 +65,6 @@ function drawTagCloud() {
           // ...as many words as you want
       ];
 
-  $("#jqtagcloud").jQCloud(word_array);
+  $("#jqtagcloud").jQCloud(tags);
 
 }
