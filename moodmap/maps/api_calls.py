@@ -107,14 +107,15 @@ def update_model(query, *args, **kwargs):
     """
     def write_model_output(tweet_data, query):
         tweet_data['query'] = query
-        try:
-            models.DataPoint.objects.create(**tweet_data)
-        except IntegrityError: # Happens when we try to insert a Tweet twice
-            pass
+        models.DataPoint.objects.create(**tweet_data)
 
     tweets = call_twitter(query, *args, **kwargs)
-    for tweet in tweets:
-        try:
-            write_model_output(request_twitter_sentiment(tweet), query)
-        except APICallFailed:
-            pass
+    try:
+        for tweet in tweets:
+            try:
+                write_model_output(request_twitter_sentiment(tweet), query)
+            except APICallFailed:
+                pass
+
+    except IntegrityError: # Happens when we try to insert a Tweet twice
+        pass
