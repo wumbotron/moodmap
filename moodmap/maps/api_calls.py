@@ -4,7 +4,10 @@ import urllib
 import json
 import models
 
-import syslog
+try:
+    import syslog
+except ImportError:
+    pass
 
 from django.db import IntegrityError
 from django.db.models import Max
@@ -13,7 +16,10 @@ class APICallFailed(Exception):
     """ Exception thrown when a server returns an error from an API call """
     pass
 
-log = syslog.syslog
+try:
+    log = syslog.syslog
+except:
+    pass
 
 def send_request(url, args):
     """ Sends a request to the given RESTful service using the given args """
@@ -117,8 +123,10 @@ def update_model(query, *args, **kwargs):
 
     # Only get tweets since the maximum ID
     max_id = models.DataPoint.objects.all().aggregate(Max('tweet_id'))['tweet_id__max']
-
-    log("max_id = %s" % (max_id,))
+    try:
+        log("max_id = %s" % (max_id,))
+    except:
+        pass
 
     if max_id is not None:
         kwargs['since_id'] = max_id
@@ -127,7 +135,11 @@ def update_model(query, *args, **kwargs):
         kwargs.pop('since_id')
 
     tweets = call_twitter(query, *args, **kwargs)
-    log("writing %s tweets to DB" % (len(tweets),))
+    try:
+        log("writing %s tweets to DB" % (len(tweets),))
+    except:
+        pass
+
     for tweet in tweets:
         try:
             write_model_output(request_twitter_sentiment(tweet), query)

@@ -1,5 +1,7 @@
-var dojoConfig = { parseOnLoad: true };
+
+	  var dojoConfig = { parseOnLoad: true };
       var map;
+      
       require([
         "esri/map",
         "esri/layers/FeatureLayer",
@@ -89,31 +91,68 @@ var dojoConfig = { parseOnLoad: true };
           title: "{title}",
           description: "{description}"
         });
-
-        //create a feature layer based on the feature collection
-        featureLayer = new FeatureLayer(featureCollection, {
-          id: 'flickrLayer',
-          infoTemplate: popupTemplate
-        });
-
-        //associate the features with the popup on click
-        featureLayer.on("click", function(evt) {
-          map.infoWindow.setFeatures([evt.graphic]);
-        });
-
-        map.on("layers-add-result", function(results) {
-          requestPhotos();
-        });
-        //add the feature layer that contains the flickr photos to the map
-        map.addLayers([featureLayer]);
+        
+        createFeatureLayer();
+        initMap();
+		
+		function createFeatureLayer() {
+	        if(featureLayer) map.removeLayer(featureLayer);
+	        console.log("create feature layer");
+	        //create a feature layer based on the feature collection
+	        featureLayer = new FeatureLayer(featureCollection, {
+	          id: 'flickrLayer',
+	          infoTemplate: popupTemplate
+	        });
+	
+	        //associate the features with the popup on click
+	        featureLayer.on("click", function(evt) {
+	          map.infoWindow.setFeatures([evt.graphic]);
+	        });
+	
+	        
+        }
+        var runonce = true;
+	    function initMap() {
+	    	map.on("layers-add-result", function(results) {
+	          if(runonce) {
+	          	requestPhotos();
+	          	runonce = false;
+	          }
+	        });
+	        //add the feature layer that contains the tweets to the map
+	        
+	        map.addLayers([featureLayer]);
+	        
+	    }
 
       function requestPhotos() {
         //get geotagged photos from flickr
         //tags=flower&tagmode=all
+        console.log("photos");
+        $.get("/api/data.json", function(data) { 
+        	populateMap(data); 
+        },
+	    "json"
+	  	).fail(function() {
+	  		console.log("populate map failed");
+	  	}).done(function() {
+	  		
+	  	});
+
         
-        $.get("/api/data.json", function(data) {
+        /*var requestHandle = esriRequest({
+          url: "http://api.flickr.com/services/feeds/geo?&format=json",
+          callbackParamName: "jsoncallback"
+        });
+        requestHandle.then(requestSucceeded, requestFailed);*/
+      }
+      
+      function populateMap(data) {
+	      createFeatureLayer();
+	      
 	      var features = [];
 	      //console.debug('tweets ', data);
+	      console.log("data.length: " + data.length);
 	      for (var i = 0, length = data.length; i < length; i++) {
 	        //console.debug("i=" +i + ", " + data[i].geo.toString());
 	        if(data[i].geo.toString() !== "") {
@@ -138,42 +177,26 @@ var dojoConfig = { parseOnLoad: true };
 	        }
 	        
 	      }
+	      map.addLayers([featureLayer]);
 	      featureLayer.applyEdits(features, null, null);
-	    },
-	    "json"
-	  	).fail(function() {
-	  		console.log("populate map failed");
-	  	}).done(function() {
-	  		
-	  	});
+	      featureLayer.refresh();
+	    }
+	    
 
-        
-        /*var requestHandle = esriRequest({
-          url: "http://api.flickr.com/services/feeds/geo?&format=json",
-          callbackParamName: "jsoncallback"
-        });
-        requestHandle.then(requestSucceeded, requestFailed);*/
-      }
-
-      /*function requestSucceeded(response, io) {
-        //loop through the items and add to the feature layer
-        var features = [];
-        array.forEach(response.items, function(item) {
-          var attr = {};
-          attr["description"] = item.description;
-          attr["title"] = item.title ? item.title : "Flickr Photo";
-
-          var geometry = new Point(item);
-
-          var graphic = new Graphic(geometry);
-          graphic.setAttributes(attr);
-          features.push(graphic);
-        });
-
-        featureLayer.applyEdits(features, null, null);
-      }
-
-      function requestFailed(error) {
-        console.log('failed');
-      }*/
-    });
+		$("#search-form").submit(function() {
+			$("#loader").css("display", "block");
+			var queryValue = $("#search-query").val();
+			$.get("/api/search.json", 
+				{ query: queryValue }, 
+				function(data) {
+					console.log("Data returned: " + data);
+					populateMap(data);
+					$("#loader").css("display", "none");
+				}, "json").fail(function() {
+					console.log("search failed");
+				});
+			return false;
+		});
+	    
+	    
+});
