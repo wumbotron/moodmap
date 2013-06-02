@@ -34,7 +34,8 @@ def data(request):
                 'sentiment': datapoint.sentiment,
                 'score': datapoint.score,
                 'geo': datapoint.geo,
-                'datetime': datapoint.datetime.isoformat()
+                'datetime': datapoint.datetime.isoformat(),
+                'tweet': datapoint.tweet
                }
 
     NUMPOINTS = 250
@@ -50,7 +51,8 @@ def search(request):
                 'sentiment': datapoint.sentiment,
                 'score': datapoint.score,
                 'geo': datapoint.geo,
-                'datetime': datapoint.datetime.isoformat()
+                'datetime': datapoint.datetime.isoformat(),
+                'tweet': datapoint.tweet
                }
 
     NUMPOINTS = 250
@@ -101,7 +103,11 @@ def scale(kws, scale):
         if rel > max_relevance:
             max_relevance = rel
 
-    scale_factor = scale / max_relevance
+    if max_relevance != 0:
+        scale_factor = scale / max_relevance
+    else:
+        scale_factor = 1
+
     for kw in kws:
         rel = kws[kw]
         kws[kw] = rel * scale_factor
