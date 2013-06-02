@@ -6,8 +6,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    #url(r'.*', 'maps.views.index'),
-    url(r'map/$', 'maps.views.map'),
+    url(r'^$', 'maps.views.map'),
+    url(r'^maps/$', 'maps.views.map'),
     url(r'layers/$', 'maps.views.layers'),
     url(r'flickr/$', 'maps.views.flickr'),
     url(r'cloud/$', 'maps.views.cloud'),
