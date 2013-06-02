@@ -1,0 +1,54 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>  
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--The viewport meta tag is used to improve the presentation and behavior of the
+    samples on iOS devices-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Tag Cloud + Map example</title>
+
+    <link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/esri/css/esri.css">
+    <script src="http://code.jquery.com/jquery-1.10.1.js"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.cyborg.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-responsive.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/jqcloud.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/cloud.css' %}"/>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <style>
+      /*html, body {
+        height:100%;
+        width:100%;
+        margin:0;
+        padding:0;
+      }*/
+      .esriScalebar{
+        padding: 20px 20px; 
+      } 
+      #map{ 
+        padding:0;
+      }
+    </style>
+
+   
+    <script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/"></script>
+  </head>
+  <body >
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span3 jqtagcloud" id="jqtagcloud">
+        </div>
+
+        <div class="span9">
+          <div id="map"></div>
+        </div>
+      </div>
+  </body>
+  <script src="{% static 'js/jqcloud-1.0.4.js' %}"></script>
+  <script src="{% static 'js/cloud.js' %}"></script>
+
+</html>
+ 
