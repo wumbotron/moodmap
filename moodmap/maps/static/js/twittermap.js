@@ -6,9 +6,12 @@
         "esri/map",
         "esri/layers/FeatureLayer",
         "esri/dijit/PopupTemplate",
+        "esri/dijit/Legend",
+        "esri/dijit/Scalebar",
         "esri/request",
         "esri/geometry/Point",
         "esri/graphic",
+        "esri/arcgis/utils",
         "dojo/on",
         "dojo/_base/array",
         "dojo/domReady!"
@@ -16,12 +19,17 @@
         Map, 
         FeatureLayer, 
         PopupTemplate,
+        Legend,
+        Scalebar,
         esriRequest,
         Point,
         Graphic,
+        Utils,
         on,
         array
       ) {
+
+
 
         var featureLayer;
 
@@ -132,7 +140,12 @@
 	  	).fail(function() {
 	  		console.log("populate map failed");
 	  	}).done(function() {
-	  		
+	  		 //console.log('add crime layer');
+         var crimeLayer = new esri.layers.FeatureLayer("http://services1.arcgis.com/M8KJPUwAXP8jhtnM/arcgis/rest/services/Hot%20Spots%20DenverCrime2012%20-%20crime/FeatureServer/0", {
+              mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+              visible: true
+          });
+        map.addLayer(crimeLayer, 1);
 	  	});
 
         

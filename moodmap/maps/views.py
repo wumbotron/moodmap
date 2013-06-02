@@ -25,6 +25,10 @@ def flickr(request):
 def cloud(request):
 	"""Returns a map that loads flickr images"""
 	return HttpResponse(render_to_string('cloud.html'))
+
+def about(request):
+	"""an about page with sample data"""
+	return HttpResponse(render_to_string('about.html'))
 		
 def data(request):
     def construct_output(datapoint):
