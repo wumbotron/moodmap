@@ -4,11 +4,16 @@ import urllib
 import json
 import models
 
+import syslog
+
 from django.db import IntegrityError
 from django.db.models import Max
+
 class APICallFailed(Exception):
     """ Exception thrown when a server returns an error from an API call """
     pass
+
+log = syslog.syslog
 
 def send_request(url, args):
     """ Sends a request to the given RESTful service using the given args """
@@ -111,12 +116,13 @@ def update_model(query, *args, **kwargs):
     # Only get tweets since the maximum ID
     max_id = models.DataPoint.objects.all().aggregate(Max('tweet_id'))['tweet_id__max']
 
-    print "max_id = %s" % (max_id,)
+    log("max_id = %s" % (max_id,))
 
     if max_id is not None:
         kwargs['since_id'] = max_id
 
     tweets = call_twitter(query, *args, **kwargs)
+    log("writing %s tweets to DB" % (len(tweets),))
     for tweet in tweets:
         try:
             write_model_output(request_twitter_sentiment(tweet), query)
@@ -124,3 +130,5 @@ def update_model(query, *args, **kwargs):
             pass
         except IntegrityError: # Duplicate DB entry
             pass
+        except urllib2.URLError:
+            log("urllib connection timed out")
