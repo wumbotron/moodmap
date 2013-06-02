@@ -1,8 +1,7 @@
-
 import urllib2
 import urllib
 import json
-from datetime import datetime
+import models
 
 class APICallFailed(Exception):
     """ Exception thrown when a server returns an error from an API call """
@@ -76,30 +75,39 @@ def call_twitter(query, geocode=None):
     return data['results']
 
 def request_twitter_sentiment(tweet):
-    text = tweet['text']
-    geo = tweet['geo']
-    user = tweet['from_user']
+    text     = tweet['text']
+    geo      = tweet['geo']
+    user     = tweet['from_user']
     tweet_id = tweet['id_str']
 
     sentiment, score, keywords = get_sentiment(text)
+
+    # We likely aren't getting any geographic data
+    if geo is None:
+        geotag = "" # Store an empty string in the DB
+    else:
+        geotag = json.dumps(geo)
 
     return {'sentiment': sentiment,
             'score': score, 
             'keywords': keywords,
             'tweet_id': tweet_id,
             'user': user,
-            'geo': json.dumps(geo['coordinates'])}
+            'geo': geotag
+           }
 
 
-def update_model(*args, **kwargs):
+def update_model(query, *args, **kwargs):
+    """
+    Enters the results from request_twitter_sentiment into the database
+    """
     def write_model_output(tweet_data, query):
-        tweet_data['datetime'] = datetime.now()
         tweet_data['query'] = query
-        DataPoint.objects.create(**tweet_data)
+        models.DataPoint.objects.create(**tweet_data)
 
-    tweets = call_twitter(*args, **kwargs)
+    tweets = call_twitter(query, *args, **kwargs)
     for tweet in tweets:
         try:
-            write_model_output(request_twitter_sentiment(tweet), "hack4colorado")
+            write_model_output(request_twitter_sentiment(tweet), query)
         except APICallFailed:
             pass
