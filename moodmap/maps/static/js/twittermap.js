@@ -4,9 +4,12 @@ var dojoConfig = { parseOnLoad: true };
         "esri/map",
         "esri/layers/FeatureLayer",
         "esri/dijit/PopupTemplate",
+        "esri/dijit/Legend",
+        "esri/dijit/Scalebar",
         "esri/request",
         "esri/geometry/Point",
         "esri/graphic",
+        "esri/arcgis/utils",
         "dojo/on",
         "dojo/_base/array",
         "dojo/domReady!"
@@ -14,12 +17,17 @@ var dojoConfig = { parseOnLoad: true };
         Map, 
         FeatureLayer, 
         PopupTemplate,
+        Legend,
+        Scalebar,
         esriRequest,
         Point,
         Graphic,
+        Utils,
         on,
         array
       ) {
+
+
 
         var featureLayer;
 
@@ -144,7 +152,23 @@ var dojoConfig = { parseOnLoad: true };
 	  	).fail(function() {
 	  		console.log("populate map failed");
 	  	}).done(function() {
-	  		
+        //
+        var crimeLayer = new esri.layers.FeatureLayer("http://services1.arcgis.com/M8KJPUwAXP8jhtnM/ArcGIS/rest/services/Denver_Crimes_2008_-_2013/FeatureServer/0", {
+              mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+              visible: true
+          });
+        map.addLayer(crimeLayer);
+        var webmapid = "c3a6575205f547788347229fde9c8fb1";
+
+        esri.arcgis.utils.createMap(webmapid, "map2").then(function(response){
+          map = response.map;
+
+          var legend = new esri.dijit.Legend({
+            map:map,
+            layerInfos:(esri.arcgis.utils.getLegendLayers())
+          },"legend");
+          legend.startup();  
+        });
 	  	});
 
         

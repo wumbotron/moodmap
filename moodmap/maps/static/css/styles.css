@@ -10,6 +10,11 @@
     min-width: 320px;
     /*min-height: 100%;*/
 }
+
+#aboutmap {
+	height: 88%;
+	min-width: 320px;
+}
 .placeholder {
 	height: 170px;
 	line-height: 170px;

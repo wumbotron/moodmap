@@ -6,15 +6,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=7,IE=9">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
-		<title>Auto Poll</title>
+		<title>About the AutoPollr</title>
 		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/esri/css/esri.css">
 		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/dojo/dijit/themes/claro/claro.css ">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
 		<script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/"></script>
 		<link rel="stylesheet" href="{% static 'css/bootstrap.cyborg.css' %}" media="screen">
-		<link rel="stylesheet" href="{% static 'css/jqcloud.css' %}" />
-    	<link rel="stylesheet" href="{% static 'css/cloud.css' %}"/>
-    	<link rel="stylesheet" href="{% static 'css/chart.css' %}"/>
 		<script src="{% static 'js/bootstrap.js' %}"></script>
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}">
  	</head>
@@ -27,10 +24,10 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="brand" href="#">Auto Poll</a>
+					<a class="brand" href="/">POLL-O-TRON</a>
 					<div class="nav-collapse collapse">
 						<ul class="nav">
-							<li><a href="#about">About</a></li>
+							<li><a href="/about">About</a></li>
 						</ul>
 					</div><!--/.nav-collapse -->
 					<form class="navbar-search pull-right">
@@ -39,32 +36,34 @@
 				</div>
 			</div>
 		</div>
-		<div class="span4" style="float: left;">
-			Sentiment Chart
-			<div id="chart-container">
-				<div id="chart">
-					<div id="positive"></div>
-					<div id="neutral"></div>
-					<div id="negative"></div>
-				</div>
-				<div id="labels">
-					<div class="left">Positive</div>
-					<div>Neutral</div>
-					<div class="right">Negative</div>
-				</div>
-			</div>
-			<br>
-			Tag cloud
-			<div class="jqtagcloud" id="jqtagcloud">
-        	</div>
-        	<h3>Legend</h3>
-        	<div class="legend" id="legend"></div>
+	<div class="container-fluid">
+		<div class="row">
+			<h2>What is the <span class="brand">Poll-o-tron?</span></h2>
+			<div class="alert alert-info">
+		        <strong class="brand">Poll-o-tron</strong> is a way for citizens and officials
+				to gauge the sentiment of those around them. Whether searching
+				for civic affairs or traffic jams, you can get an instant look
+				at the thoughts of social media users in Denver.
+		    </div>
 		</div>
-		<div id="map" class="container-fluid"></div>
-		<div id="map2" class="container-fluid"></div>
+		<div class="row">
+			<div class="span4">
+				<h2>Examples</h2>
+		    <p>For example, citizens and government officials could compare 
+		    	sentiment to population demographics and traffic accidents.
+		    </p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span5">
+	        	<h3 class="brand">Legend</h3>
+	        	<div class="legend" id="legend"></div>
+			</div>
+			<div class="span7">
+				<div id="aboutmap"></div>
+			</div>
+		</div>
+	</div>
  	</body>
- 	<script src="{% static 'js/twittermap.js' %}"></script>
- 	<script src="{% static 'js/jqcloud-1.0.4.js' %}"></script>
-  	<script src="{% static 'js/cloud.js' %}"></script>
-	<script src="{% static 'js/chart.js' %}"></script>
+ 	<script src="{% static 'js/esrimap.js' %}"></script>
 </html>
