@@ -67,6 +67,7 @@ def call_twitter(query, geocode=None):
 
     args = {}
     args['q'] = query
+    args['rpp'] = 100
 
     # geocode for Denver within a 30 mi radius
     if geocode is None:
