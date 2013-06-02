@@ -117,8 +117,7 @@ def update_model(query, *args, **kwargs):
         kwargs['since_id'] = max_id
 
     tweets = call_twitter(query, *args, **kwargs)
-    print "Number of tweets: %s" % (len(tweets),)
-    for (i, tweet) in enumerate(tweets):
+    for tweet in tweets:
         try:
             write_model_output(request_twitter_sentiment(tweet), query)
         except APICallFailed:
