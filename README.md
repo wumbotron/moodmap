@@ -1,5 +1,10 @@
 To get started
 =======
+If you're on Debian/Ubuntu, you'll need to install some development libraries.
+Run:
+
+    sudo apt-get install libpq-dev python3-dev
+
 Run the following commands to set up the virtualenv environment. You
 should only need to do this once.
 
