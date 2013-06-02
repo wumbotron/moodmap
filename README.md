@@ -15,3 +15,11 @@ To start the server, run:
 
     cd moodmap/ # This is the django subdirectory, *not* the root project dir
     python manage.py runserver 8080
+
+Populate Data
+======
+
+    python manage.py shell
+
+    >>> from maps.api_calls import update_model
+    >>> update_model("hack4colorado")
