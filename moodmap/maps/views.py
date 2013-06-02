@@ -53,7 +53,11 @@ def tags(request):
             else:
                 kws[keyword] += relevance
     kws = scale(kws, 20)
-    return HttpResponse(json.dumps(kws))
+
+    json_string = []
+    for kw in kws:
+        json_string.append({'text': kw, 'weight': kws[kw]})
+    return HttpResponse(json.dumps(json_string))
 
 def normalize_text(text):
     t = text.lower()
