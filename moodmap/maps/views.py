@@ -2,6 +2,7 @@ from __future__ import division
 
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from urllib2 import unquote
 import json
 import models
 from api_calls import update_model
@@ -61,7 +62,7 @@ def search(request):
 
     NUMPOINTS = 250
     if 'query' in request.GET:
-        query = request.GET['query']
+        query = unquote(request.GET['query'])
         if not models.DataPoint.objects.filter(query__exact=query).exists():
             update_model(query)
         query_set = models.DataPoint.objects.filter(query__exact=query).order_by('tweet_id').reverse()[:NUMPOINTS]
@@ -73,7 +74,7 @@ def search(request):
 
 def tags(request):
     if 'query' in request.GET:
-        filtered = models.DataPoint.objects.filter(query__exact=request.GET['query'])
+        filtered = models.DataPoint.objects.filter(query__exact=unquote(request.GET['query']))
         queryset = list(filtered.order_by('datetime')[:100])
     else:
         queryset = list(models.DataPoint.objects.order_by('datetime')[:100])
@@ -132,7 +133,7 @@ def tally(request):
     if not 'query' in request.GET:
         points = models.DataPoint.objects.order_by('tweet_id').reverse()[:NUMPOINTS]
     else:
-        filtered = models.DataPoint.objects.filter(query__exact=request.GET['query'])
+        filtered = models.DataPoint.objects.filter(query__exact=unquote(request.GET['query']))
         points = filtered.order_by('tweet_id').reverse()[:NUMPOINTS]
 
     totals = {}

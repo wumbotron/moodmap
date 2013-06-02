@@ -145,7 +145,7 @@
               mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
               visible: true
           });
-        map.addLayer(crimeLayer, 1);
+        map.addLayer(crimeLayer, 0);
 	  	});
 
         
@@ -171,8 +171,8 @@
 		        attr.user = data[i].user;
 		        attr.sentiment = data[i].sentiment;
 		        attr.datetime = data[i].datetime;
-		        //var sentiment = (data[i].sentiment == "positive") ? "#05bc1e" : 
-		        attr.title = data[i].sentiment;
+		        var sentiment = (data[i].sentiment == "positive") ? "#05bc1e" : (data[i].sentiment == "neutral") ? "#808080" : "#cf1111";
+		        attr.title = "<span style=\"color: " + sentiment + "\">" + data[i].sentiment + "</span>";
 		        attr.description = data[i].tweet + " <br><span class=\"label label-info\">" + data[i].user + "</span>";
 		        attr.tweet = data[i].tweet;
 		        //attr.geo = JSON.parse(data[i].geo);

@@ -42,6 +42,14 @@ html, body {
                 url('/static/img/ajax-loader.gif') 
                 50% 50% 
                 no-repeat;
+   
+}
+#loader {
+	text-align: center;
+	color: black;
+	font-size: 50pt;
+	padding-top: 4em;
+	font-family: scoreboard, sans-serif;
 }
 
 .brand {
