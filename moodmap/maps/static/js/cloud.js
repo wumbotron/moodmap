@@ -1,10 +1,10 @@
-/*$(document).ready(function() {
+$(document).ready(function() {
       
     drawTagCloud();
 
 });
-*/
-var drawTagCloud = function() {
+
+function drawTagCloud() {
   var tags = [];
   $.get("/api/tags.json", function(data) {
       //console.debug('tags', data);

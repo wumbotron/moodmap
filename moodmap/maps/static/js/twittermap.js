@@ -144,7 +144,7 @@ var dojoConfig = { parseOnLoad: true };
 	  	).fail(function() {
 	  		console.log("populate map failed");
 	  	}).done(function() {
-	  		drawTagCloud();
+	  		
 	  	});
 
         
