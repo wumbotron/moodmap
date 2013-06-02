@@ -54,16 +54,23 @@ def search(request):
                }
 
     NUMPOINTS = 250
-    query = request.GET['query']
-    if not models.DataPoint.objects.filter(query__exact=query).exists():
-        update_model(query)
-    query_set = models.DataPoint.objects.filter(query__exact=query).order_by('tweet_id').reverse()[:NUMPOINTS]
+    if 'query' in request.GET:
+        query = request.GET['query']
+        if not models.DataPoint.objects.filter(query__exact=query).exists():
+            update_model(query)
+        query_set = models.DataPoint.objects.filter(query__exact=query).order_by('tweet_id').reverse()[:NUMPOINTS]
+    else:
+        query_set = models.DataPoint.objects.all().order_by('tweet_id').reverse()[:NUMPOINTS]
     output = [construct_output(datapoint) for datapoint in query_set]
     return HttpResponse(json.dumps(output))
 
 
 def tags(request):
-    queryset = list(models.DataPoint.objects.order_by('datetime')[:100])
+    if 'query' in request.GET:
+        filtered = models.DataPoint.objects.filter(query__exact=request.GET['query'])
+        queryset = list(filtered.order_by('datetime')[:100])
+    else:
+        queryset = list(models.DataPoint.objects.order_by('datetime')[:100])
     kws = {}
     for q in queryset:
         keywords = json.loads(q.keywords)
@@ -102,8 +109,6 @@ def scale(kws, scale):
 
 def tally(request):
     NUMPOINTS = 500
-    points = models.DataPoint.objects.order_by('tweet_id').reverse()[:NUMPOINTS]
-
     def classify(point):
         if point.score is None:
             return point.sentiment
@@ -113,6 +118,12 @@ def tally(request):
             return "positive"
         else:
             return "neutral"
+
+    if not 'query' in request.GET:
+        points = models.DataPoint.objects.order_by('tweet_id').reverse()[:NUMPOINTS]
+    else:
+        filtered = models.DataPoint.objects.filter(query__exact=request.GET['query'])
+        points = filtered.order_by('tweet_id').reverse()[:NUMPOINTS]
 
     totals = {}
     for point in points:
