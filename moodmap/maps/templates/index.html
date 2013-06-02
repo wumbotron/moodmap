@@ -14,6 +14,7 @@
 		<link rel="stylesheet" href="{% static 'css/bootstrap.cyborg.css' %}" media="screen">
 		<link rel="stylesheet" href="{% static 'css/jqcloud.css' %}" />
     	<link rel="stylesheet" href="{% static 'css/cloud.css' %}"/>
+    	<link rel="stylesheet" href="{% static 'css/chart.css' %}"/>
 		<script src="{% static 'js/bootstrap.js' %}"></script>
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}">
  	</head>
@@ -38,9 +39,21 @@
 				</div>
 			</div>
 		</div>
-		<div class="span4" style="float: left; font-family: Codystar">
-			Pie chart
-			<div id="pieChart" class="placeholder">Placeholder</div>
+		<div class="span4" style="float: left;">
+			Sentiment Chart
+			<div id="chart-container">
+				<div id="chart">
+					<div id="positive"></div>
+					<div id="neutral"></div>
+					<div id="negative"></div>
+				</div>
+				<div id="labels">
+					<div class="left">Positive</div>
+					<div>Neutral</div>
+					<div class="right">Negative</div>
+				</div>
+			</div>
+			<br>
 			Tag cloud
 			<div class="jqtagcloud" id="jqtagcloud">
         	</div>
@@ -50,5 +63,5 @@
  	<script src="{% static 'js/twittermap.js' %}"></script>
  	<script src="{% static 'js/jqcloud-1.0.4.js' %}"></script>
   	<script src="{% static 'js/cloud.js' %}"></script>
-
+	<script src="{% static 'js/chart.js' %}"></script>
 </html>

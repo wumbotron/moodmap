@@ -1,0 +1,40 @@
+﻿
+#chart-container {
+	padding: 20px 5px;
+}
+#chart {
+	height: 50px;
+	width: 100%;
+	border: 1px #333333 solid;
+}
+#chart div {
+	float: left;
+	height: 50px;
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 50px;
+	font-weight: bold;
+}
+#labels div {
+	float: left;
+	color: white;
+	width: 33.333%;
+	text-align: center;
+	vertical-align: middle;
+}
+#labels .left {
+	text-align: left;
+}
+#labels .right {
+	text-align: right;
+}
+#positive {
+	background-color: #05bc1e;
+}
+#negative {
+	background-color: #cf1111;
+}
+#neutral {
+	background-color:#808080;
+}

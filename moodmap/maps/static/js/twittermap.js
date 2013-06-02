@@ -56,7 +56,7 @@ var dojoConfig = { parseOnLoad: true };
               "type": "simple",
               "symbol": {
                 "type": "esriPMS",
-                "url": "/static/img/twitter-icon-green.png",
+                "url": "/static/img/twitter-pointer-green.png",
                 "contentType": "image/png",
                 "width": 20,
                 "height": 20/*,

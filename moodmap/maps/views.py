@@ -100,5 +100,5 @@ def tally(request):
             totals[cl] += 1
         else:
             totals[cl]  = 1
-
+    
     return HttpResponse(json.dumps(totals))

@@ -26,10 +26,10 @@ function drawTagCloud() {
     },
     "json"
   ).fail(function() {
-	  		console.log("tag cloud load failed");
-	  	}).done(function() {
-	  		console.log("tag cloud done");
-	  	});
+	console.log("tag cloud load failed");
+  }).done(function() {
+	//console.log("tag cloud done");
+  });
 
   var word_array = [
           {text: "Lorem", weight: 8},
