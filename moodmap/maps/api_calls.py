@@ -1,7 +1,10 @@
 import urllib2
 import urllib
+
 import json
 import models
+
+from django.db import IntegrityError
 
 class APICallFailed(Exception):
     """ Exception thrown when a server returns an error from an API call """
@@ -103,7 +106,10 @@ def update_model(query, *args, **kwargs):
     """
     def write_model_output(tweet_data, query):
         tweet_data['query'] = query
-        models.DataPoint.objects.create(**tweet_data)
+        try:
+            models.DataPoint.objects.create(**tweet_data)
+        except IntegrityError: # Happens when we try to insert a Tweet twice
+            pass
 
     tweets = call_twitter(query, *args, **kwargs)
     for tweet in tweets:
