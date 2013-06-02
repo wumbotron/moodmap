@@ -83,11 +83,22 @@ def tally(request):
     NUMPOINTS = 500
     points = models.DataPoint.objects.order_by('tweet_id').reverse()[:NUMPOINTS]
 
+    def classify(point):
+        if point.score is None:
+            return point.sentiment
+        elif point.score < -0.1:
+            return "negative"
+        elif point.score > 0.1:
+            return "positive"
+        else:
+            return "neutral"
+
     totals = {}
     for point in points:
-        if point.sentiment in totals:
-            totals[point.sentiment] += 1
+        cl = classify(point)
+        if cl in totals:
+            totals[cl] += 1
         else:
-            totals[point.sentiment]  = 1
+            totals[cl]  = 1
 
     return HttpResponse(json.dumps(totals))
