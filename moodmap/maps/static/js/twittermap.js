@@ -25,7 +25,7 @@ var dojoConfig = { parseOnLoad: true };
 
         map = new Map("map", {
 	      center: [-104.87,39.67],
-	      zoom: 5,//11,
+	      zoom: 11,
 	      basemap: "streets",
 	      autoResize: true
 	    });
@@ -110,14 +110,50 @@ var dojoConfig = { parseOnLoad: true };
       function requestPhotos() {
         //get geotagged photos from flickr
         //tags=flower&tagmode=all
-        var requestHandle = esriRequest({
+        
+        $.get("/api/data.json", function(data) {
+	      var features = [];
+	      //console.debug('tweets ', data);
+	      for (var i = 0, length = data.length; i < length; i++) {
+	        //console.debug("i=" +i + ", " + data[i].geo.toString());
+	        if(data[i].geo.toString() !== "") {
+		        var attr = {};
+		        feature.tweet_id = data[i].tweet_id;
+		        feature.score = data[i].score;
+		        feature.user = data[i].user;
+		        feature.sentiment = data[i].sentiment;
+		        feature.datetime = data[i].datetime;
+		        attr.title = data[i].user;
+		        attr.description = data[i].sentiment;
+		        //attr.geo = JSON.parse(data[i].geo);
+		        var coord = JSON.parse(data[i].geo);
+		        var pt = {"latitude": coord.coordinates[0], "longitude": coord.coordinates[1]};
+		        
+		        //console.log(attr.geo.coordinates);
+		        var geometry = new Point(pt);
+		        
+		        var graphic = new Graphic(geometry);
+		        graphic.setAttributes(attr);
+		        features.push(graphic);
+	        }
+	        
+	      }
+	      featureLayer.applyEdits(features, null, null);
+	    },
+	    "json"
+	  	).fail(function() {
+	  		console.log("populate map failed");
+	  	});
+
+        
+        /*var requestHandle = esriRequest({
           url: "http://api.flickr.com/services/feeds/geo?&format=json",
           callbackParamName: "jsoncallback"
         });
-        requestHandle.then(requestSucceeded, requestFailed);
+        requestHandle.then(requestSucceeded, requestFailed);*/
       }
 
-      function requestSucceeded(response, io) {
+      /*function requestSucceeded(response, io) {
         //loop through the items and add to the feature layer
         var features = [];
         array.forEach(response.items, function(item) {
@@ -137,5 +173,5 @@ var dojoConfig = { parseOnLoad: true };
 
       function requestFailed(error) {
         console.log('failed');
-      }
+      }*/
     });

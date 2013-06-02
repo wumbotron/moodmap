@@ -11,7 +11,7 @@ def index(request):
 
 def map(request):
 	"""Returns a map view"""
-	return HttpResponse(render_to_string('simplemap.html'))
+	return HttpResponse(render_to_string('index.html'))
 
 def layers(request):
 	"""Returns a map view that uses ESRI feature layers"""
@@ -50,7 +50,11 @@ def tags(request):
             else:
                 kws[keyword] += relevance
     kws = scale(kws, 20)
-    return HttpResponse(json.dumps(kws))
+
+    json_string = []
+    for kw in kws:
+        json_string.append({'text': kw, 'weight': kws[kw]})
+    return HttpResponse(json.dumps(json_string))
 
 def normalize_text(text):
     t = text.lower()

@@ -1,52 +1,13 @@
-var dojoConfig = { parseOnLoad: true };
-      var map;
-      require([
-        "esri/map",
-        "esri/layers/FeatureLayer",
-        "esri/dijit/PopupTemplate",
-        "esri/request",
-        "esri/geometry/Point",
-        "esri/graphic",
-        "dojo/on",
-        "dojo/_base/array",
-        "dojo/domReady!"
-      ], function(
-        Map, 
-        FeatureLayer, 
-        PopupTemplate,
-        esriRequest,
-        Point,
-        Graphic,
-        on,
-        array
-      ) {
+$(document).ready(function() {
+      
+    drawTagCloud();
 
-        var featureLayer;
-
-        map = new Map("map", {
-          basemap: "osm",
-          center: [-46.807, 32.553],
-          zoom: 3
-        });
-
-        //hide the popup if its outside the map's extent
-        map.on("mouse-drag", function(evt) {
-          if (map.infoWindow.isShowing) {
-            var loc = map.infoWindow.getSelectedFeature().geometry;
-            if (!map.extent.contains(loc)) {
-              map.infoWindow.hide();
-            }
-          }
-        });
-
-        drawTagCloud();
-
-      });
+});
 
 function drawTagCloud() {
   var tags = [];
   $.get("/api/tags.json", function(data) {
-      //console.debug('tags', data);
+      console.debug('tags', data);
       for (var i = 0, length = data.length; i < length; i++) {
         var tag = {};
         tag.text = data[i].text;
