@@ -118,11 +118,11 @@ var dojoConfig = { parseOnLoad: true };
 	        //console.debug("i=" +i + ", " + data[i].geo.toString());
 	        if(data[i].geo.toString() !== "") {
 		        var attr = {};
-		        feature.tweet_id = data[i].tweet_id;
-		        feature.score = data[i].score;
-		        feature.user = data[i].user;
-		        feature.sentiment = data[i].sentiment;
-		        feature.datetime = data[i].datetime;
+		        attr.tweet_id = data[i].tweet_id;
+		        attr.score = data[i].score;
+		        attr.user = data[i].user;
+		        attr.sentiment = data[i].sentiment;
+		        attr.datetime = data[i].datetime;
 		        attr.title = data[i].user;
 		        attr.description = data[i].sentiment;
 		        //attr.geo = JSON.parse(data[i].geo);
@@ -143,6 +143,8 @@ var dojoConfig = { parseOnLoad: true };
 	    "json"
 	  	).fail(function() {
 	  		console.log("populate map failed");
+	  	}).done(function() {
+	  		drawTagCloud();
 	  	});
 
         

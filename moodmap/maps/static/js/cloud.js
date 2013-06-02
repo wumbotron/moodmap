@@ -1,13 +1,13 @@
-$(document).ready(function() {
+/*$(document).ready(function() {
       
     drawTagCloud();
 
 });
-
-function drawTagCloud() {
+*/
+var drawTagCloud = function() {
   var tags = [];
   $.get("/api/tags.json", function(data) {
-      console.debug('tags', data);
+      //console.debug('tags', data);
       for (var i = 0, length = data.length; i < length; i++) {
         var tag = {};
         tag.text = data[i].text;
@@ -22,9 +22,14 @@ function drawTagCloud() {
         } 
         
       }
+      $("#jqtagcloud").jQCloud(tags);
     },
     "json"
-  );
+  ).fail(function() {
+	  		console.log("tag cloud load failed");
+	  	}).done(function() {
+	  		console.log("tag cloud done");
+	  	});
 
   var word_array = [
           {text: "Lorem", weight: 8},
@@ -35,6 +40,6 @@ function drawTagCloud() {
           // ...as many words as you want
       ];
 
-  $("#jqtagcloud").jQCloud(tags);
+  
 
 }

@@ -1,4 +1,5 @@
-@import url('http://fonts.googleapis.com/css?family=Quantico');
+﻿@import url('http://fonts.googleapis.com/css?family=Quantico');
+@import url(http://fonts.googleapis.com/css?family=Codystar);
 
 @font-face {
 	font-family: scoreboard;
@@ -11,9 +12,11 @@
 	height: 250px;
 }
 
-.jqtagcloud > span {
-	font-family: 'scoreboard', sans-serif;
-	font-weight: normal;
+.jqtagcloud span {
+	font-family: scoreboard, sans-serif;
+	font-family: Codystar, sans-serif;
+	font-weight: 700;
+	text-shadow: 1px 1px rgba(128,128,128,0.75);
 }
 
 span.w1 {

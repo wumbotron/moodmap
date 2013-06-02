@@ -20,7 +20,11 @@ def layers(request):
 def flickr(request):
 	"""Returns a map that loads flickr images"""
 	return HttpResponse(render_to_string('flickr.html'))
-	
+
+def cloud(request):
+	"""Returns a map that loads flickr images"""
+	return HttpResponse(render_to_string('cloud.html'))
+		
 def data(request):
     def construct_output(datapoint):
         """For a given DataPoint, constructs an output dictionary"""
