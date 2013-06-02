@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     url(r'map/$', 'maps.views.map'),
     url(r'layers/$', 'maps.views.layers'),
     url(r'flickr/$', 'maps.views.flickr'),
+    url(r'^api/data.json$', 'maps.views.data'),
+    url(r'^api/tags.json$', 'maps.views.tags')
     # Examples:
     # url(r'^$', 'moodmap.views.home', name='home'),
     # url(r'^moodmap/', include('moodmap.foo.urls')),

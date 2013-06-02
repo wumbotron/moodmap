@@ -17,4 +17,10 @@ def flickr(request):
 	"""Returns a map that loads flickr images"""
 	return HttpResponse(render_to_string('flickr.html'))
 	
-	
+def data(request):
+    # Fill in here
+    return HttpResponse()
+
+def tags(request):
+    # Fill in here
+    return HttpResponse()
