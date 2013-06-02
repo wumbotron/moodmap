@@ -90,7 +90,7 @@ def request_twitter_sentiment(tweet):
 
     return {'sentiment': sentiment,
             'score': score, 
-            'keywords': keywords,
+            'keywords': json.dumps(keywords),
             'tweet_id': tweet_id,
             'user': user,
             'geo': geotag

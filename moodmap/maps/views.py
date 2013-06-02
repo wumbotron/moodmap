@@ -1,8 +1,7 @@
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-
-import models
 import json
+import models
 
 def index(request):
     """Returns a default view"""
@@ -36,5 +35,38 @@ def data(request):
     return HttpResponse(json.dumps(output))
 
 def tags(request):
-    # Fill in here
-    return HttpResponse()
+    queryset = list(models.DataPoint.objects.order_by('datetime')[:100])
+    kws = {}
+    for q in queryset:
+        keywords = json.loads(q.keywords)
+        for kw in keywords:
+            keyword = normalize_text(kw['text'])
+            relevance = float(kw['relevance'])
+            if keyword not in kws:
+                kws[keyword] = relevance
+            else:
+                kws[keyword] += relevance
+    kws = scale(kws, 20)
+    return HttpResponse(json.dumps(kws))
+
+def normalize_text(text):
+    t = text.lower()
+    t = t.strip()
+    if t.endswith('.'):
+        t = t[:-1]
+    return t
+
+def scale(kws, scale):
+    max_relevance = 0
+    for rel in kws.values():
+        if rel > max_relevance:
+            max_relevance = rel
+
+    scale_factor = scale / max_relevance
+    for kw in kws:
+        rel = kws[kw]
+        kws[kw] = rel * scale_factor
+    return kws
+
+
+
