@@ -5,7 +5,7 @@ import json
 import models
 
 from django.db import IntegrityError
-
+from django.db.models import Max
 class APICallFailed(Exception):
     """ Exception thrown when a server returns an error from an API call """
     pass
@@ -56,7 +56,7 @@ def get_sentiment(text):
 
     return sentiment_type, score, keywords
 
-def call_twitter(query, geocode=None):
+def call_twitter(query, **kwargs):
     """
     Calls the Twitter Search API with the given search query and an
     optional geocode string.
@@ -65,16 +65,16 @@ def call_twitter(query, geocode=None):
     """
     endpoint = 'http://search.twitter.com/search.json'
 
-    args = {}
-    args['q'] = query
+    if not 'geocode' in kwargs:
+        kwargs['geocode'] = '39.739167,-104.984722,30mi' 
 
-    # geocode for Denver within a 30 mi radius
-    if geocode is None:
-        args['geocode'] = '39.739167,-104.984722,30mi'
-    else:
-        args['geocode'] = geocode
+    if not 'q' in kwargs:
+        kwargs['q'] = query
 
-    data = send_request(endpoint, args)
+    if not 'rpp' in kwargs:
+        kwargs['rpp'] = 100
+
+    data = send_request(endpoint, kwargs)
     return data['results']
 
 def request_twitter_sentiment(tweet):
@@ -106,14 +106,21 @@ def update_model(query, *args, **kwargs):
     """
     def write_model_output(tweet_data, query):
         tweet_data['query'] = query
-        try:
-            models.DataPoint.objects.create(**tweet_data)
-        except IntegrityError: # Happens when we try to insert a Tweet twice
-            pass
+        models.DataPoint.objects.create(**tweet_data)
+
+    # Only get tweets since the maximum ID
+    max_id = models.DataPoint.objects.all().aggregate(Max('tweet_id'))['tweet_id__max']
+
+    print "max_id = %s" % (max_id,)
+
+    if max_id is not None:
+        kwargs['since_id'] = max_id
 
     tweets = call_twitter(query, *args, **kwargs)
     for tweet in tweets:
         try:
             write_model_output(request_twitter_sentiment(tweet), query)
         except APICallFailed:
+            pass
+        except IntegrityError: # Duplicate DB entry
             pass
