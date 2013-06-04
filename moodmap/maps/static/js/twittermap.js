@@ -206,13 +206,14 @@
 				function(data) {
 					console.log("Data returned: " + data);
 					populateMap(data);
+          drawTagCloud();
+          refreshChart();
 					$("#loader").css("display", "none");
 				}, "json").fail(function() {
 					console.log("search failed");
 				});
 			
-			drawTagCloud();
-			refreshChart();
+			
 			
 			return false;
 		});
