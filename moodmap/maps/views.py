@@ -31,35 +31,25 @@ def about(request):
 	"""an about page with sample data"""
 	return HttpResponse(render_to_string('about.html'))
 		
-def data(request):
-    def construct_output(datapoint):
-        """For a given DataPoint, constructs an output dictionary"""
-        return {'user': datapoint.user,
-                'tweet_id': datapoint.tweet_id,
-                'sentiment': datapoint.sentiment,
-                'score': datapoint.score,
-                'geo': datapoint.geo,
-                'datetime': datapoint.datetime.isoformat(),
-                'tweet': datapoint.tweet
-               }
+def construct_output(datapoint):
+    """For a given DataPoint, constructs an output dictionary"""
+    return {'user': datapoint.user,
+            'tweet_id': datapoint.tweet_id,
+            'sentiment': datapoint.sentiment,
+            'score': datapoint.score,
+            'geo': datapoint.geo,
+            'datetime': datapoint.datetime.isoformat(),
+            'tweet_ts': datapoint.tweet_ts.isoformat(),
+            'tweet': datapoint.tweet
+           }
 
+def data(request):
     NUMPOINTS = 250
     output = [construct_output(datapoint) for datapoint in
         models.DataPoint.objects.order_by('tweet_id').reverse()[:NUMPOINTS]]
     return HttpResponse(json.dumps(output))
 
 def search(request):
-    def construct_output(datapoint):
-        """For a given DataPoint, constructs an output dictionary"""
-        return {'user': datapoint.user,
-                'tweet_id': datapoint.tweet_id,
-                'sentiment': datapoint.sentiment,
-                'score': datapoint.score,
-                'geo': datapoint.geo,
-                'datetime': datapoint.datetime.isoformat(),
-                'tweet': datapoint.tweet
-               }
-
     NUMPOINTS = 250
     if 'query' in request.GET:
         query = unquote(request.GET['query'])

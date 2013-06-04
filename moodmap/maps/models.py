@@ -9,5 +9,8 @@ class DataPoint(models.Model):
     # geotag (blank if none available)
     geo       = models.CharField(max_length=100, blank=True)
     keywords  = models.TextField()
+    # Datetime when row was inserted
     datetime  = models.DateTimeField(auto_now_add=True)
+    # Datetime when Tweet was posted
+    tweet_ts  = models.DateTimeField()
     tweet     = models.CharField(max_length=140)

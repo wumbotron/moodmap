@@ -1,8 +1,15 @@
+"""
+Used by the backend daemon to make calls to Twitter Search and Alchemy APIs
+"""
+
 import urllib2
 import urllib
 
 import json
 import models
+import datetime
+
+from dateutil import parser
 
 try:
     import syslog
@@ -22,9 +29,11 @@ except:
     pass
 
 def send_request(url, args):
-    """ Sends a request to the given RESTful service using the given args """
+    """
+    Sends a GET request to the given RESTful service using the given args,
+    and parses the response using JSON.
+    """
     url_values = urllib.urlencode(args)
-    print url + '?' + url_values
     response = urllib2.urlopen(url + '?' + url_values)
     data = json.load(response)
     return data
@@ -87,14 +96,20 @@ def call_twitter(query, **kwargs):
         kwargs['rpp'] = 100
 
     data = send_request(endpoint, kwargs)
-    print data
     return data['results']
 
 def request_twitter_sentiment(tweet):
+    """
+    Given a Tweet like one of those returned by call_twitter(),
+    sends a request to Alchemy to get sentiment data.
+    """
     text     = tweet['text']
     geo      = tweet['geo']
     user     = tweet['from_user']
     tweet_id = tweet['id_str']
+    timestr  = tweet['created_at']
+
+    posted_datetime = parser.parse(timestr)
 
     sentiment, score, keywords = get_sentiment(text)
 
@@ -110,6 +125,7 @@ def request_twitter_sentiment(tweet):
             'tweet_id': tweet_id,
             'user': user,
             'geo': geotag,
+            'tweet_ts': posted_datetime,
             'tweet': text
            }
 
