@@ -5,7 +5,7 @@
 
 #jqtagcloud {
 	min-width: 300px;
-	height: 250px;
+	min-height: 400px;
 }
 
 .jqtagcloud span {

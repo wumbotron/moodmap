@@ -10,6 +10,14 @@ html, body {
     height: 100%;
 }
 
+h2 {
+    text-align: center;
+}
+
+.span12 {
+    padding-right: 100px;
+}
+
 #map {
     margin-right: 20px;
     height: 88%;
@@ -28,6 +36,7 @@ html, body {
 }
 .module {
 	margin-bottom: 20px;
+    font-size: 20px;
 }
 
 .modal {
