@@ -16,15 +16,12 @@ hacking on the project), type:
 
     . env_activate
 
-To start the server, run:
+Running the local server
+========================
 
-    cd moodmap/ # This is the django subdirectory, *not* the root project dir
-    python manage.py runserver 8080
+To create the database and start populating it with the daemon, run:
 
-Populate Data
-======
-
-    python manage.py shell
-
-    >>> from maps.api_calls import update_model
-    >>> update_model("hack4colorado")
+    cd moodmap/ # The django subdirectory, not the root directory
+    python manage.py syncdb # This will create the DB with the correct schema
+    python manage.py update_model start # This will start the data gathering daemon
+    python manage.py runserver # Finally, start the server
