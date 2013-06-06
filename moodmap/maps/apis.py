@@ -39,10 +39,16 @@ def construct_output(datapoint):
             'sentiment': datapoint.sentiment,
             'score': datapoint.score,
             'geo': datapoint.geo,
-            'datetime': datapoint.datetime.isoformat(),
             'tweet_ts': datapoint.tweet_ts.isoformat(),
             'tweet': datapoint.tweet
            }
+
+def get_datapoints_by_query(query):
+    """
+    Utility function to get a set of datapoints from a query string
+    """
+    job = models.Job.objects.filter(query__exact=query).get()
+    return models.DataPoint.objects.filter(job=job)
 
 @register_handler
 def data(request):
@@ -56,9 +62,13 @@ def search(request):
     NUMPOINTS = 250
     if 'query' in request.GET:
         query = unquote(request.GET['query'])
-        if not models.DataPoint.objects.filter(query__exact=query).exists():
+        # Look for this query in the jobs model
+        if not models.Job.objects.filter(query__exact=query).exists():
+            # If it doesn't exist, use update_model to create it
             update_model(query)
-        query_set = models.DataPoint.objects.filter(query__exact=query).order_by('tweet_id').reverse()[:NUMPOINTS]
+
+        points = get_datapoints_by_query(query)
+        query_set = points.order_by('tweet_id').reverse()[:NUMPOINTS]
     else:
         query_set = models.DataPoint.objects.all().order_by('tweet_id').reverse()[:NUMPOINTS]
     output = [construct_output(datapoint) for datapoint in query_set]
@@ -91,10 +101,11 @@ def tags(request):
         return kws
 
     if 'query' in request.GET:
-        filtered = models.DataPoint.objects.filter(query__exact=unquote(request.GET['query']))
-        queryset = list(filtered.order_by('datetime')[:100])
+        query = unquote(request.GET['query'])
+        filtered = get_datapoints_by_query(query)
+        queryset = list(filtered.order_by('tweet_id')[:100])
     else:
-        queryset = list(models.DataPoint.objects.order_by('datetime')[:100])
+        queryset = list(models.DataPoint.objects.order_by('tweet_id')[:100])
     kws = {}
     for q in queryset:
         keywords = json.loads(q.keywords)
@@ -128,7 +139,8 @@ def tally(request):
     if not 'query' in request.GET:
         points = models.DataPoint.objects.order_by('tweet_id').reverse()[:NUMPOINTS]
     else:
-        filtered = models.DataPoint.objects.filter(query__exact=unquote(request.GET['query']))
+        query = unquote(request.GET['query'])
+        filtered = get_datapoints_by_query(query)
         points = filtered.order_by('tweet_id').reverse()[:NUMPOINTS]
 
     totals = {}

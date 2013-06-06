@@ -140,7 +140,13 @@ def update_model(query, *args, **kwargs):
     Enters the results from request_twitter_sentiment into the database
     """
     def write_model_output(tweet_data, query):
-        tweet_data['query'] = query
+        # First, check if a job exists already with this query string
+        try:
+            job = models.Job.objects.filter(query__exact=query).get()
+        except models.Job.DoesNotExist:
+            job = models.Job.objects.create(query=query, active=True,
+                                            last_run=datetime.datetime.now())
+        tweet_data['job']   = job
         models.DataPoint.objects.create(**tweet_data)
 
     # Only get tweets since the maximum ID
