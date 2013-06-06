@@ -8,6 +8,9 @@ import urllib
 import json
 import models
 import datetime
+import hashlib
+import hmac
+from twitter import twitter_response
 
 from dateutil import parser
 
@@ -63,7 +66,7 @@ def get_sentiment(text):
     if sentiment_data['status'] == "ERROR":
         raise APICallFailed("Got error from alchemy")
 
-    
+    print sentiment_data
     sentiment = sentiment_data['docSentiment']
     sentiment_type = sentiment['type']
 
@@ -84,19 +87,21 @@ def call_twitter(query, **kwargs):
 
     Returns: a list of tweets
     """
-    endpoint = 'http://search.twitter.com/search.json'
+    endpoint = 'https://api.twitter.com/1.1/search/tweets.json?'
 
-    if not 'geocode' in kwargs:
-        kwargs['geocode'] = '39.739167,-104.984722,30mi' 
+    #if not 'geocode' in kwargs:
+    #   kwargs['geocode'] = '39.739167,-104.984722,30mi' 
 
     if not 'q' in kwargs:
         kwargs['q'] = query
 
-    if not 'rpp' in kwargs:
-        kwargs['rpp'] = 100
+    if not 'count' in kwargs:
+        kwargs['count'] = 100
 
-    data = send_request(endpoint, kwargs)
-    return data['results']
+    url = endpoint + urllib.urlencode(kwargs)
+
+    data = twitter_response(url)
+    return data['statuses']
 
 def request_twitter_sentiment(tweet):
     """
@@ -105,8 +110,8 @@ def request_twitter_sentiment(tweet):
     """
     text     = tweet['text']
     geo      = tweet['geo']
-    user     = tweet['from_user']
-    tweet_id = tweet['id_str']
+    user     = tweet['user']['name']
+    tweet_id = tweet['id']
     timestr  = tweet['created_at']
 
     posted_datetime = parser.parse(timestr)

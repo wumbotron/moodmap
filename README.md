@@ -25,3 +25,9 @@ To create the database and start populating it with the daemon, run:
     python manage.py syncdb # This will create the DB with the correct schema
     python manage.py update_model start # This will start the data gathering daemon
     python manage.py runserver # Finally, start the server
+
+New Dependencies
+================
+
+    pip install requests
+    pip install requests_oauthlib
