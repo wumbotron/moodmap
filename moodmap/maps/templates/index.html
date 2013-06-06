@@ -17,6 +17,16 @@
     	<link rel="stylesheet" href="{% static 'css/chart.css' %}"/>
 		<script src="{% static 'js/bootstrap.js' %}"></script>
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+		<script language="javascript" src="{% static 'js/js-class.js' %}" type="text/javascript"></script>
+		<script language="javascript" src="{% static 'js/bluff-min.js' %}" type="text/javascript"></script>
+		<script language="javascript" src="{% static 'js/bluff-src.js' %}" type="text/javascript"></script>
+
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+			google.load("visualization", "1", {packages:["corechart"]});
+		</script>
+		
  	</head>
  	<body>
 		<div class="navbar navbar-inverse">
@@ -39,36 +49,44 @@
 				</div>
 			</div>
 		</div>
-		<div class="span12" style="float: left;">
-			
-			<br>
-			<h2>Sentiments</h2>
-			<div id="chart-container" class="module">
-				<div id="chart">
-					<div id="positive"></div>
-					<div id="neutral"></div>
-					<div id="negative"></div>
-				</div>
-				<div id="labels">
-					<div class="left">Positive</div>
-					<div>Neutral</div>
-					<div class="right">Negative</div>
-				</div>
-			</div>
-			
-			<br><br><br>
-			<h2>Tag cloud</h2>
-			<div class="jqtagcloud module" id="jqtagcloud">
-        	</div>
-        	<br><br><br>
-        	<h2>Tweet Statistics</h2>
-			<div id="loader" class="modal">Gauging Sentiment...</div>
-			<div id="stats" class="module" style="text-align: center">
+		<div class="row-fluid">
+
+			<div class="span4">
 				
+				<div class="divider">
+					<script type="text/javascript"> 
+			  			google.setOnLoadCallback(refreshChart);
+			 		</script>
+
+	    		 	<div id="visualization" style="width: 600px; height: 400px;"></div>
+					<div id="labels"></div>
+    			</div>
+			</div>
+
+			
+
+			<div class="span4">
+
+				
+				<div class="divider">
+					<div class="jqtagcloud module" id="jqtagcloud"></div>
+
+	        	<br><br><br>
+
+	        	<h2>Tweet Statistics</h2>
+				<div id="stats" class="module" style="text-align: center"></div>
+    			</div>
+
+			</div>
+
+			<div class="span4">
+				<div id="map"></div>
+			</div>
+
 			</div>
 		</div>
 
-		<div id="map" class="container-fluid"></div>
+		
 		<div id="loader" class="modal">Gauging Sentiment...</div>
  	</body>
  	<script src="{% static 'js/twittermap.js' %}"></script>
