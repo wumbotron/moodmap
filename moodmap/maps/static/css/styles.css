@@ -40,6 +40,7 @@ h2 {
 }
 
 .modal {
+<<<<<<< Updated upstream
     display:    none;
     position:   fixed;
     z-index:    100;
@@ -49,10 +50,26 @@ h2 {
     width:      30%;
     background:  
                 url('/static/img/ajax-loader.gif');
+     
+=======
     
+    z-index:    1000;
+    height:     300px%;
+    width:      300px%;
+    overflow:   scroll;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('/static/img/ajax-loader.gif') 
+                50% 50% 
+                no-repeat;
    
+>>>>>>> Stashed changes
 }
+
 #loader {
+    display:    none;
+	text-align: center;
+    font-size:  20px;
+    color:      white;
 }
 
 .brand {

@@ -196,6 +196,7 @@
 
 		$("#search-form").submit(function() {
 			$("#loader").css("display", "block");
+      //window.setTimeout(function(){location.reload(true)}, 3000);
 			var data = null;
 			if($("#search-query").val() != "") {
 				data = { query: encodeURIComponent($("#search-query").val()) }
