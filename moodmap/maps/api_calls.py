@@ -66,7 +66,7 @@ def get_sentiment(text):
     if sentiment_data['status'] == "ERROR":
         raise APICallFailed("Got error from alchemy")
 
-    print sentiment_data
+    #print sentiment_data
     sentiment = sentiment_data['docSentiment']
     sentiment_type = sentiment['type']
 

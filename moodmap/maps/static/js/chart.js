@@ -22,7 +22,11 @@ function refreshChart() {
     
     // Create and draw the visualization.
     new google.visualization.PieChart(document.getElementById('visualization')).
-        draw(data, {title:"moodmap sentiments"});
+  
+        draw(data,{
+              backgroundColor:'#141414',
+              legend: {textStyle: {color: '#B0C4DE'}},
+              slices:[{color:'#00008B'}, {color:'#8B0000'}, {color:'#006400'}]});
 
       $("#stats").html("Total: " + total + "<br>" + "Geo-tagged: " + data.geotagged);
     },
