@@ -4,3 +4,4 @@ env
 env_activate
 .DS_Store
 moodmap/moodmap.db
+.start_stop_lock
