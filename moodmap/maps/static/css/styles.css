@@ -42,23 +42,17 @@ h2 {
 .modal {
     display:    none;
     position:   fixed;
-    z-index:    1000;
+    z-index:    100;
     top:        0;
     left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 255, 255, 255, .8 ) 
-                url('/static/img/ajax-loader.gif') 
-                50% 50% 
-                no-repeat;
+    height:     30%;
+    width:      30%;
+    background:  
+                url('/static/img/ajax-loader.gif');
+    
    
 }
 #loader {
-	text-align: center;
-	color: black;
-	font-size: 50pt;
-	padding-top: 4em;
-	font-family: scoreboard, sans-serif;
 }
 
 .brand {
