@@ -22,11 +22,16 @@ function refreshChart() {
     
     // Create and draw the visualization.
     new google.visualization.PieChart(document.getElementById('visualization')).
-  
-        draw(data,{
-              backgroundColor:'#141414',
-              legend: {textStyle: {color: '#B0C4DE'}},
-              slices:[{color:'#00008B'}, {color:'#8B0000'}, {color:'#006400'}]});
+      draw(data, {title: 'Sentiments',
+                  titleTextStyle: {color: 'white'},
+                  width: '100%', height: 266,
+                  is3D:true,
+                  chartArea: {left:30,top:30, width:"80%",height:"100%"},
+                  backgroundColor: { fill:'transparent' },
+                  legend: {alignment: 'center', textStyle: {color: 'white'}},
+                  pieSliceTextStyle: {'color': 'white', 'fontName': 'garmond', 'fontSize': 12},
+                  slices: {0: {color: 'green'}, 1: {color:'red'}, 2: {color: 'gray'}}
+                 });
 
       $("#stats").html("Total: " + total + "<br>" + "Geo-tagged: " + data.geotagged);
     },
