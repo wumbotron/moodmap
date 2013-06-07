@@ -26,6 +26,7 @@ class APICallFailed(Exception):
     """ Exception thrown when a server returns an error from an API call """
     pass
 
+# TODO: refactor this try/except stuff
 try:
     log = syslog.syslog
 except:
@@ -139,18 +140,20 @@ def update_model(query, *args, **kwargs):
     """
     Enters the results from request_twitter_sentiment into the database
     """
-    def write_model_output(tweet_data, query):
-        # First, check if a job exists already with this query string
-        try:
-            job = models.Job.objects.filter(query__exact=query).get()
-        except models.Job.DoesNotExist:
-            job = models.Job.objects.create(query=query, active=True,
-                                            last_run=datetime.datetime.now())
-        tweet_data['job']   = job
-        models.DataPoint.objects.create(**tweet_data)
 
-    # Only get tweets since the maximum ID
-    max_id = models.DataPoint.objects.all().aggregate(Max('tweet_id'))['tweet_id__max']
+    # Create a job from this query if none exists yet.
+    try:
+        job = models.Job.objects.filter(query__exact=query).get()
+        job.last_run = datetime.datetime.now()
+        job.save()
+    except models.Job.DoesNotExist:
+        job = models.Job.objects.create(query=query,
+                                        active=True,
+                                        last_run=datetime.datetime.now())
+
+    # Only get tweets since the maximum ID from this job
+    max_id = models.DataPoint.objects.filter(job=job).aggregate(Max('tweet_id'))['tweet_id__max']
+
     try:
         log("max_id = %s" % (max_id,))
     except:
@@ -158,9 +161,6 @@ def update_model(query, *args, **kwargs):
 
     if max_id is not None:
         kwargs['since_id'] = max_id
-
-    if query is not 'hack4colorado' and 'since_id' in kwargs:
-        kwargs.pop('since_id')
 
     tweets = call_twitter(query, *args, **kwargs)
     try:
@@ -170,7 +170,9 @@ def update_model(query, *args, **kwargs):
 
     for tweet in tweets:
         try:
-            write_model_output(request_twitter_sentiment(tweet), query)
+            tweet_data = request_twitter_sentiment(tweet)
+            tweet_data['job'] = job
+            models.DataPoint.objects.create(**tweet_data)
         except APICallFailed:
             pass
         except IntegrityError: # Duplicate DB entry

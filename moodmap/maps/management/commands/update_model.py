@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
+from maps.models import Job
 from maps.api_calls import update_model
 from time import sleep
 
@@ -12,7 +13,6 @@ class Command(BaseCommand):
     help = "Starts a service which periodically updates the model"
 
     LOCK_FILE = '.start_stop_lock'
-    QUERY = 'hack4colorado'
 
     def start_service(self):
         if os.path.isfile(Command.LOCK_FILE):
@@ -37,7 +37,14 @@ class Command(BaseCommand):
 
     def run_daemon(self):
         while True:
-            update_model(Command.QUERY)
+            # Choose the least-recently-used job and update the model by
+            # searching Twitter for its query string
+            try:
+                query_string = Job.objects.order_by('last_run')[0].query
+                update_model(query_string)
+            except IndexError:
+                print "No jobs exist yet."
+
             time.sleep(120)
 
     def handle(self, *args, **options):
@@ -47,4 +54,3 @@ class Command(BaseCommand):
             self.stop_service()
         else:
             print "Unrecognized command: %s" % (args[0],)
-
