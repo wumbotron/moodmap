@@ -22,7 +22,7 @@ function refreshChart() {
     ]);
     
     // Create and draw the visualization.
-    console.log("geotag data count:%d" ,data.geotagged);
+    console.log("data count:%d" ,total);
     $("#stats").html("Tweet Statistics: " + "Total: " + total + " | " + "Geo-tagged: " + data.geotagged);
     new google.visualization.PieChart(document.getElementById('visualization')).
       draw(Gdata, {title: 'Sentiments',

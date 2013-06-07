@@ -189,6 +189,7 @@
 	        
 	      }
 	      map.addLayers([featureLayer]);
+
 	      featureLayer.applyEdits(features, null, null);
 	      featureLayer.refresh();
 	    }
@@ -205,14 +206,20 @@
 			$.get("/api/search.json", 
 				data, 
 				function(data) {
-					console.log("Data returned: " + data);
-					populateMap(data);
-          drawTagCloud();
-          refreshChart();
-					$("#loader").css("display", "none");
-				}, "json").fail(function() {
-					console.log("search failed");
-				});
+          if (data != ""){
+  					console.log("Data returned: " + data);
+  					populateMap(data);
+            drawTagCloud();
+            refreshChart();
+          }
+          else{
+            window.confirm("Sorry, no results returned.");
+          }
+  					$("#loader").css("display", "none");
+  				}, "json").fail(function() {
+  					console.log("search failed");
+  				});
+        
 			
 			
 			
