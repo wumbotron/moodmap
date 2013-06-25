@@ -3,31 +3,20 @@ var map;
 var featureLayer;
 
 
-initMap();
-
-
 function getInitialTweets() {
   $.get("/api/data.json", function(data) { 
   	populateMap(data); 
   },
-"json"
-).fail(function() {
-	console.log("populate map failed");
-}).done(function() {
-	//console.log('add crime layer');
-  var crimeLayer = new esri.layers.FeatureLayer("http://services1.arcgis.com/M8KJPUwAXP8jhtnM/arcgis/rest/services/Hot%20Spots%20DenverCrime2012%20-%20crime/FeatureServer/0", {
-    mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
-      visible: true
-    });
-  map.addLayer(crimeLayer, 0);
-});
+  "json"
+  ).fail(function() {
+  	console.log("populate map failed");
+  }).done(function() {
+  	// crime layer was added here
+  });
 }
 
       
 function populateMap(data) {
-  createFeatureLayer();
-  
-  var features = [];
   //console.debug('tweets ', data);
   console.log("data.length: " + data.length);
   for (var i = 0, length = data.length; i < length; i++) {
@@ -48,19 +37,15 @@ function populateMap(data) {
       var pt = {"latitude": coord.coordinates[0], "longitude": coord.coordinates[1]};
       
       //console.log(attr.geo.coordinates)
-      initialize(attr);
+      add_marker(attr);
     }
     
   }
-  map.addLayers([featureLayer]);
-
-  featureLayer.applyEdits(features, null, null);
-  featureLayer.refresh();
 }
 
 
 
-function initialize(attr) {
+function add_marker(attr) {
   var myLatlng = new google.maps.LatLng(attr.pt.latitude, attr.pt.longitude);
   var mapOptions = {
     zoom: 8,
