@@ -5,12 +5,14 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=7,IE=9">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 		
 		<title>About the AutoPollr</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
 		<link rel="stylesheet" href="{% static 'css/bootstrap.cyborg.css' %}" media="screen">
 		<script src="{% static 'js/bootstrap.js' %}"></script>
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+		<script src="{% static 'js/aboutmap.js' %}"></script>
  	</head>
  	<body>
 		<div class="navbar navbar-inverse">
@@ -33,7 +35,7 @@
 				</div>
 			</div>
 		</div>
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
 			<h2>What is the <span class="brand">Poll-o-tron?</span></h2>
 			<div class="alert alert-info">
@@ -43,24 +45,32 @@
 				at the thoughts of social media users in Denver.
 		    </div>
 		</div>
+
 		<div class="row">
-			<div class="span4">
-				<h2>Examples</h2>
-		    <p>For example, citizens and government officials could compare 
-		    	sentiment to population demographics and traffic accidents.
-		    </p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="span5">
-	        	<h3 class="brand">Legend</h3>
-	        	<div class="legend" id="legend"></div>
-			</div>
-			<div class="span7">
-				<div id="aboutmap"></div>
+			<div class="about">
+	        	<h3 class="brand" style="color: #00FF00">Story</h3>
+	        	<p>Our team formed through our internship company ReadyTalk in Denver, CO. They were sponsoring Hack4Colorado and wanted the intern team to participate. We'd all just met that day and had never participated in hacking events so thought it would be a cool challenge.
+	        	<br><br>
+				Hack4Colorado was sponsored (among others) by the Alchemy and ESRI API companies. As such, two  of the local challenges were to find a good uses for these APIs. After a crash course in the API's on Friday night we tried to find a way to use the APIs that would provide public benefit.
+				<br><br>
+				As we discussed ideas, our supervisor was tweeting all about the event. As he uploaded photo after photo, it occurred to us that he tweets a lot, as do many others. Not only do people tweet, Facebook, comment and share but they do so in such a way that it demonstrates their opinions towards the topics they interact with.
+				<br><br>
+				Here entered the Alchemy API. We realized that if there was a way to interface with social media data it could be used to supplement or even replace local public opinion polls. We knew we could build the search function around the Twitter API to allow direct hash-tag searching such that specific polls could be created.
+				<br><br>
+				From there modifications flowed steadily. ESRI was added to show the location of the public opinion sources (when geo-tagged) and a chart was added to make the data easy to read. We also chose to publish the key terms that the Alchemy API used to determine the sentiment of the tweet.
+				<br><br>
+				As it stands now, Poll-o-Tron allows you to search as you would on Twitter for any topic. The results of public opinion are then displayed for easy review.</p>
+
+				<h3 class="brand" style="color: #00FF00">How it Can Help the Public</h3>
+
+				<p>National, State and Local polls all have a very high cost associated with them. Local governments also have no way to easily compare data sets to current public opinion. Poll-o-Tron provides a solution to this.
+				<br><br>
+				Local governments can use public polling by assigning specific hash-tags on Twitter to get instant feedback on things like construction interference, perception of public safety and general happiness. At the national level, polls can be conducted to get Presidential ratings or public opinion towards a bill going through Congress.
+				<br><br>
+				Above all else, our project is simple, cheap and easy to implement, a far cry from current public opinion polling methods.</p>
 			</div>
 		</div>
 	</div>
  	</body>
- 	<script src="{% static 'js/googlemap.js' %}"></script>
+ 	<script src="{% static 'js/aboutmap.js' %}"></script>
 </html>

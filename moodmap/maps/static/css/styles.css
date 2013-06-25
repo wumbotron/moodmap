@@ -7,11 +7,23 @@
 html, body {
     padding: 0;
     margin: 0;
-    height: 100%;
+
 }
+
 
 h2 {
     text-align: center;
+}
+
+p {
+    font-size: 18px;
+    color: white;
+    padding-left: 25px;
+    line-height: 22px;
+}
+
+.about {
+    padding: 50px;
 }
 
 .span12 {
