@@ -40,7 +40,8 @@ def construct_output(datapoint):
             'score': datapoint.score,
             'geo': datapoint.geo,
             'tweet_ts': datapoint.tweet_ts.isoformat(),
-            'tweet': datapoint.tweet
+            'tweet': datapoint.tweet,
+            'html': datapoint.html
            }
 
 def get_datapoints_by_query(query):

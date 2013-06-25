@@ -104,6 +104,11 @@ def call_twitter(query, **kwargs):
     data = twitter_response(url)
     return data['statuses']
 
+def get_embedded_tweet(tweet_id):
+    url = 'https://api.twitter.com/1.1/statuses/oembed.json?id=%s' % (tweet_id,)
+    data = twitter_response(url)
+    return data['html']
+
 def request_twitter_sentiment(tweet):
     """
     Given a Tweet like one of those returned by call_twitter(),
@@ -114,6 +119,7 @@ def request_twitter_sentiment(tweet):
     user     = tweet['user']['name']
     tweet_id = tweet['id']
     timestr  = tweet['created_at']
+    html     = get_embedded_tweet(tweet_id)
 
     posted_datetime = parser.parse(timestr)
 
@@ -132,7 +138,8 @@ def request_twitter_sentiment(tweet):
             'user': user,
             'geo': geotag,
             'tweet_ts': posted_datetime,
-            'tweet': text
+            'tweet': text,
+            'html': html
            }
 
 

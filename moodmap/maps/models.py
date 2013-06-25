@@ -24,6 +24,8 @@ class DataPoint(models.Model):
     tweet_ts  = models.DateTimeField()
     # Body of Tweet
     tweet     = models.CharField(max_length=140)
+    # Embedded html
+    html      = models.TextField()
 
 class Job(models.Model):
     """

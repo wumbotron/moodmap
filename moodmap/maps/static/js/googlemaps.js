@@ -25,6 +25,17 @@ google.maps.event.addDomListener(window, 'load', function() {
             position: new google.maps.LatLng(coords.latitude, coords.longitude),
             map: map
         });
+
+        var content = attrs.html;
+
+        var infowindow = new google.maps.InfoWindow({
+            content: content,
+            maxWidth: 300
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map, marker);
+        });
     };
 
     function populateMap(data) {
@@ -39,6 +50,7 @@ google.maps.event.addDomListener(window, 'load', function() {
                 attr.user = data[i].user;
                 attr.sentiment = data[i].sentiment;
                 attr.datetime = data[i].datetime;
+                attr.html = data[i].html;
                 var sentiment = (data[i].sentiment == "positive") ? "#05bc1e" : (data[i].sentiment == "neutral") ? "#808080" : "#cf1111";
                 attr.title = "<span style=\"color: " + sentiment + "\">" + data[i].sentiment + "</span>";
                 attr.description = data[i].tweet + " <br><span class=\"label label-info\">" + data[i].user + "</span>";

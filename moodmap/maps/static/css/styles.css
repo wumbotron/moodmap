@@ -36,6 +36,15 @@ p {
     min-width: 320px;
     min-height: 400px;
 }
+
+#map p {
+    color: black;
+}
+
+#map img {
+    max-width: none;
+}
+
 .placeholder {
 	height: 170px;
 	line-height: 170px;
