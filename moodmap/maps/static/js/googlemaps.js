@@ -77,6 +77,7 @@ google.maps.event.addDomListener(window, 'load', function() {
         search_query = $("#search-query").val();
         console.log("Search query is: " + search_query);
         window.googlemap.getTweets();
+        return false;
     });
 
 
