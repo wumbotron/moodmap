@@ -63,14 +63,6 @@ google.maps.event.addDomListener(window, 'load', function() {
         $("#loader").css("visibility", "hidden");
     }
 
-    function updateModel(data) {
-        populateMap(data);
-        drawTagCloud();
-        refreshChart();
-
-        removeLoader();
-    }
-
     $("#search-form").submit(function() {
         $("#loader").css("display", "block");
 
@@ -85,7 +77,8 @@ google.maps.event.addDomListener(window, 'load', function() {
         displayLoader();
         if(search_query === "")
             $.get("/api/data.json", function(response) { 
-                updateModel(response);
+                populateMap(response);
+                removeLoader();
             },
             "json"
             ).fail(function() {
@@ -97,12 +90,16 @@ google.maps.event.addDomListener(window, 'load', function() {
             $.get("/api/search.json",
                 {query: encodeURIComponent(search_query)},
                 function(response) {
-                    updateModel(response);
+                    populateMap(response);
+                    removeLoader();
                 },
                 "json"
                 ).fail(function() {
                     console.log("populate map failed");
                 });
+
+        drawTagCloud();
+        refreshChart();
     };
 
     // Initially pull tweets
