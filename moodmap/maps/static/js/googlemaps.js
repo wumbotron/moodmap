@@ -17,14 +17,21 @@ google.maps.event.addDomListener(window, 'load', function() {
     googlemap.getMap = function() {
         return map;
     };
-
+    var markersArray = [];
+    function clearOverlays() {
+        for (var i = 0; i < markersArray.length; i++ ) {
+            markersArray[i].setMap(null);
+        }
+            markersArray = [];
+    }
     googlemap.addPoint = function(attrs) {
         var coords = attrs.pt;
-
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(coords.latitude, coords.longitude),
-            map: map
+            map: map,
+            icon: "static/img/twitter-pointer-green.png"
         });
+
 
         var content = attrs.html;
 
@@ -35,8 +42,10 @@ google.maps.event.addDomListener(window, 'load', function() {
 
         google.maps.event.addListener(marker, 'click', function() {
             infowindow.open(map, marker);
-        });
-    };
+       
+     });
+         markersArray.push(marker);
+    }
 
     function populateMap(data) {
         //console.debug('tweets ', data);
@@ -58,6 +67,7 @@ google.maps.event.addDomListener(window, 'load', function() {
                 //attr.geo = JSON.parse(data[i].geo);
                 var coord = JSON.parse(data[i].geo);
                 attr.pt = {"latitude": coord.coordinates[0], "longitude": coord.coordinates[1]};
+
 
                 googlemap.addPoint(attr);
             }
@@ -89,6 +99,7 @@ google.maps.event.addDomListener(window, 'load', function() {
         displayLoader();
         if(search_query === "")
             $.get("/api/data.json", function(response) { 
+                clearOverlays();
                 populateMap(response);
                 removeLoader();
             },
@@ -102,6 +113,7 @@ google.maps.event.addDomListener(window, 'load', function() {
             $.get("/api/search.json",
                 {query: encodeURIComponent(search_query)},
                 function(response) {
+                    clearOverlays();
                     populateMap(response);
                     removeLoader();
                 },
@@ -120,5 +132,5 @@ google.maps.event.addDomListener(window, 'load', function() {
     // Set up a timer
     window.setInterval(function() {
         googlemap.getTweets();
-    }, 15000);
+    }, 60000);
 });
