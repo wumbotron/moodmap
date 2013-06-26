@@ -18,6 +18,7 @@ google.maps.event.addDomListener(window, 'load', function() {
         return map;
     };
     var markersArray = [];
+    //A Clear overlays method to make sure that we can refresh geotagged tweets. 
     function clearOverlays() {
         for (var i = 0; i < markersArray.length; i++ ) {
             markersArray[i].setMap(null);
@@ -112,20 +113,33 @@ google.maps.event.addDomListener(window, 'load', function() {
                 // crime layer was added here
             });
         else
+            var response = null;
+            if ($("#search-query").val() != ""){
+                response = {query: encodeURIComponent(search_query)}
+            }
             $.get("/api/search.json",
-                {query: encodeURIComponent(search_query)},
+                response,
                 function(response) {
-                    clearOverlays();
-                    populateMap(response);
-                    removeLoader();
+                    if (response!= ""){
+                        clearOverlays();
+                        populateMap(response);
+                        drawTagCloud();
+                        refreshChart();
+                        removeLoader();
+                        
+                    }
+                    else{
+                         removeLoader();
+                    }
+                   
                 },
                 "json"
                 ).fail(function() {
                     console.log("populate map failed");
+                    
                 });
 
-        drawTagCloud();
-        refreshChart();
+
     };
 
     // Initially pull tweets

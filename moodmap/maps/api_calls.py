@@ -107,7 +107,10 @@ def call_twitter(query, **kwargs):
 def get_embedded_tweet(tweet_id):
     url = 'https://api.twitter.com/1.1/statuses/oembed.json?id=%s' % (tweet_id,)
     data = twitter_response(url)
-    return data['html']
+    try:
+        return data['html']
+    except KeyError:
+        return ""
 
 def request_twitter_sentiment(tweet):
     """
