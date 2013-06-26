@@ -35,16 +35,18 @@ google.maps.event.addDomListener(window, 'load', function() {
 
         var content = attrs.html;
 
-        var infowindow = new google.maps.InfoWindow({
-            content: content,
-            maxWidth: 300
-        });
+        // Initialize the info window, if we have embedded data to display
+        if(content !== "") {
+            var infowindow = new google.maps.InfoWindow({
+                content: content,
+                maxWidth: 300
+            });
 
-        google.maps.event.addListener(marker, 'click', function() {
-            infowindow.open(map, marker);
-       
-     });
-         markersArray.push(marker);
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map, marker);
+            });
+            markersArray.push(marker);
+        }
     }
 
     function populateMap(data) {
