@@ -135,6 +135,7 @@ google.maps.event.addDomListener(window, 'load', function() {
                 },
                 "json"
                 ).fail(function() {
+                    removeLoader();
                     console.log("populate map failed");
                     
                 });
